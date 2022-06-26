@@ -1,0 +1,19 @@
+&general
+ PREFIX = STO_scph_600K
+ MODE = RTA;
+ NKD = 3; KD = Sr Ti O
+ FCSXML = STO_anharm.xml
+ FC2XML = STO222_scph_600K.xml
+ TMIN = 600; TMAX = 600
+ NONANALYTIC = 3; BORNINFO = BORN
+/
+&cell
+ 7.363
+ 1.0 0.0 0.0
+ 0.0 1.0 0.0
+ 0.0 0.0 1.0
+/
+&kpoint
+ 2
+ 9 9 9
+/

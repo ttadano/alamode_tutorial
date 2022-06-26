@@ -1,0 +1,401 @@
+ +-----------------------------------------------------------------+
+ +                         Program ANPHON                          +
+ +                             Ver.  1.4.0                         +
+ +-----------------------------------------------------------------+
+
+ Job started at Sun Jun 26 17:02:22 2022
+
+ The number of MPI processes: 4
+ The number of OpenMP threads: 1
+
+
+ Input variables:
+ -----------------------------------------------------------------
+ General:
+  PREFIX = STO_scph_300K
+  MODE = RTA
+  FCSXML = STO_anharm.xml
+  FC2XML = STO222_scph_300K.xml
+
+  NKD = 3; KD =   Sr  Ti   O
+  MASS = 
+  NSYM = 0; TOLERANCE = 0.001; PRINTSYM = 0
+
+  NONANALYTIC = 3
+  BORNINFO = BORN; NA_SIGMA = 0.1
+
+  TMIN = 300; TMAX = 300; DT = 10
+  EMIN = 0; EMAX = 1000; DELTA_E = 10
+
+  ISMEAR = -1; EPSILON = 10
+
+  CLASSICAL = 0
+  BCONNECT = 0
+
+  RESTART = 0
+  TRISYM = 1
+
+
+ Kpoint:
+  KPMODE (1st entry for &kpoint) = 2
+
+
+ Analysis:
+  ISOTOPE = 0
+  KAPPA_SPEC = 0
+
+
+ -----------------------------------------------------------------
+
+                        MODE = RTA                           
+                                                             
+      Calculation of phonon line width (lifetime) and        
+      lattice thermal conductivity within the RTA            
+      (relaxation time approximation).                       
+      Harmonic and anharmonic force constants will be used.  
+
+ -----------------------------------------------------------------
+
+ Crystal structure
+ =================
+
+ Lattice Vectors:
+
+ * Supercell (from STO_anharm.xml )
+
+    1.472600e+01   0.000000e+00   0.000000e+00 : a1
+    0.000000e+00   1.472600e+01   0.000000e+00 : a2
+    0.000000e+00   0.000000e+00   1.472600e+01 : a3
+
+    4.266729e-01   0.000000e+00   0.000000e+00 : b1
+    0.000000e+00   4.266729e-01   0.000000e+00 : b2
+    0.000000e+00   0.000000e+00   4.266729e-01 : b3
+
+ * Primitive cell 
+
+    7.363000e+00   0.000000e+00   0.000000e+00 : a1
+    0.000000e+00   7.363000e+00   0.000000e+00 : a2
+    0.000000e+00   0.000000e+00   7.363000e+00 : a3
+
+    8.533458e-01   0.000000e+00   0.000000e+00 : b1
+    0.000000e+00   8.533458e-01   0.000000e+00 : b2
+    0.000000e+00   0.000000e+00   8.533458e-01 : b3
+
+
+  Volume of the primitive cell : 3.991760e+02 (a.u.)^3
+
+  Number of atoms in the supercell     : 40
+  Number of atoms in the primitive cell: 5
+
+
+  FC2XML is given: Harmonic IFCs will be replaced by the values in STO222_scph_300K.xml
+
+ * Supercell for HARMONIC (from STO222_scph_300K.xml )
+
+    1.472600e+01   0.000000e+00   0.000000e+00 : a1
+    0.000000e+00   1.472600e+01   0.000000e+00 : a2
+    0.000000e+00   0.000000e+00   1.472600e+01 : a3
+
+    4.266729e-01   0.000000e+00   0.000000e+00 : b1
+    0.000000e+00   4.266729e-01   0.000000e+00 : b2
+    0.000000e+00   0.000000e+00   4.266729e-01 : b3
+
+  Number of atoms in the supercell (HARMONIC)   : 40
+
+  Atomic positions in the primitive cell (fractional):
+   1:   0.000000e+00   0.000000e+00   0.000000e+00  Sr
+   2:   5.000000e-01   5.000000e-01   5.000000e-01  Ti
+   3:   0.000000e+00   5.000000e-01   5.000000e-01   O
+   4:   5.000000e-01   0.000000e+00   5.000000e-01   O
+   5:   5.000000e-01   5.000000e-01   0.000000e+00   O
+
+  Mass of atomic species (u):
+  Sr:   87.620000
+  Ti:   47.867000
+   O:   15.999400
+
+
+ Symmetry
+ ========
+
+  NSYM = 0 is given: Trying to find symmetry operations.
+  Number of symmetry operations : 48
+
+ k points
+ ========
+
+  KPMODE = 2: Uniform grid
+  Gamma-centered uniform grid with the following mesh density: 
+  nk1:   9
+  nk2:   9
+  nk3:   9
+
+  Number of k points : 729
+  Number of irreducible k points : 35
+
+  List of irreducible k points (reciprocal coordinate, weight) : 
+      1:   0.00000e+00   0.00000e+00   0.00000e+00   0.001372
+      2:   0.00000e+00   0.00000e+00   1.11111e-01   0.008230
+      3:   0.00000e+00   0.00000e+00   2.22222e-01   0.008230
+      4:   0.00000e+00   0.00000e+00   3.33333e-01   0.008230
+      5:   0.00000e+00   0.00000e+00   4.44444e-01   0.008230
+      6:   0.00000e+00   1.11111e-01   1.11111e-01   0.016461
+      7:   0.00000e+00   1.11111e-01   2.22222e-01   0.032922
+      8:   0.00000e+00   1.11111e-01   3.33333e-01   0.032922
+      9:   0.00000e+00   1.11111e-01   4.44444e-01   0.032922
+     10:   0.00000e+00   2.22222e-01   2.22222e-01   0.016461
+     11:   0.00000e+00   2.22222e-01   3.33333e-01   0.032922
+     12:   0.00000e+00   2.22222e-01   4.44444e-01   0.032922
+     13:   0.00000e+00   3.33333e-01   3.33333e-01   0.016461
+     14:   0.00000e+00   3.33333e-01   4.44444e-01   0.032922
+     15:   0.00000e+00   4.44444e-01   4.44444e-01   0.016461
+     16:   1.11111e-01   1.11111e-01   1.11111e-01   0.010974
+     17:   1.11111e-01   1.11111e-01   2.22222e-01   0.032922
+     18:   1.11111e-01   1.11111e-01   3.33333e-01   0.032922
+     19:   1.11111e-01   1.11111e-01   4.44444e-01   0.032922
+     20:   1.11111e-01   2.22222e-01   2.22222e-01   0.032922
+     21:   1.11111e-01   2.22222e-01   3.33333e-01   0.065844
+     22:   1.11111e-01   2.22222e-01   4.44444e-01   0.065844
+     23:   1.11111e-01   3.33333e-01   3.33333e-01   0.032922
+     24:   1.11111e-01   3.33333e-01   4.44444e-01   0.065844
+     25:   1.11111e-01   4.44444e-01   4.44444e-01   0.032922
+     26:   2.22222e-01   2.22222e-01   2.22222e-01   0.010974
+     27:   2.22222e-01   2.22222e-01   3.33333e-01   0.032922
+     28:   2.22222e-01   2.22222e-01   4.44444e-01   0.032922
+     29:   2.22222e-01   3.33333e-01   3.33333e-01   0.032922
+     30:   2.22222e-01   3.33333e-01   4.44444e-01   0.065844
+     31:   2.22222e-01   4.44444e-01   4.44444e-01   0.032922
+     32:   3.33333e-01   3.33333e-01   3.33333e-01   0.010974
+     33:   3.33333e-01   3.33333e-01   4.44444e-01   0.032922
+     34:   3.33333e-01   4.44444e-01   4.44444e-01   0.032922
+     35:   4.44444e-01   4.44444e-01   4.44444e-01   0.010974
+
+ Force constant
+ ==============
+
+  Reading force constants from the XML file ... done !
+  Number of non-zero IFCs for 2 order: 3627
+  Number of non-zero IFCs for 3 order: 298068
+
+  Maximum deviation from the translational invariance: 
+   Order 2 : 1.541085e-15
+   Order 3 : 4.985162e-16
+
+
+ Dynamical matrix
+ ================
+
+  NONANALYTIC = 3 : Non-analytic part of the dynamical matrix will be included 
+                    by the Ewald method.
+
+  Dielectric constants and Born effective charges are read from BORN.
+
+  Dielectric constant tensor in Cartesian coordinate : 
+   6.351390e+00   0.000000e+00  -0.000000e+00
+   0.000000e+00   6.351390e+00   0.000000e+00
+  -0.000000e+00   0.000000e+00   6.351390e+00
+
+  Born effective charge tensor in Cartesian coordinate
+  Atom    1( Sr) :
+       2.552785       0.000000      -0.000000
+       0.000000       2.552785      -0.000000
+      -0.000000       0.000000       2.552785
+  Atom    2( Ti) :
+       7.348792       0.000000       0.000000
+       0.000000       7.348792      -0.000000
+      -0.000000       0.000000       7.348792
+  Atom    3(  O) :
+      -5.821233      -0.000000       0.000000
+       0.000000      -2.040172       0.000000
+       0.000000       0.000000      -2.040172
+  Atom    4(  O) :
+      -2.040172       0.000000       0.000000
+      -0.000000      -5.821233       0.000000
+      -0.000000       0.000000      -2.040172
+  Atom    5(  O) :
+      -2.040172      -0.000000       0.000000
+       0.000000      -2.040172       0.000000
+       0.000000      -0.000000      -5.821233
+
+ -----------------------------------------------------------------
+
+
+ ISMEAR = -1: Tetrahedron method will be used.
+
+
+  Preparing for the Ewald summation ...
+
+  Inverse dielectric tensor : 
+   1.574459e-01  -0.000000e+00   0.000000e+00
+  -0.000000e+00   1.574459e-01  -0.000000e+00
+   0.000000e+00  -0.000000e+00   1.574459e-01
+
+  Determinant of epsilon:    2.562160e+02
+
+  Parameters for the Ewald summation :
+  - Force constant
+    Lambda :    3.378766e-01
+    Lmax   :    3.920801e+01
+    Gmax   :    1.409458e+00
+    Maximum number of real-space cells :   3x  3x  3
+    Maximum number of reciprocal cells :   4x  4x  4
+
+  - Dynamical matrix
+    Lambda :    6.757532e-01
+    Lmax   :    1.960400e+01
+    Gmax   :    2.818916e+00
+    Maximum number of real-space cells :   3x  3x  3
+    Maximum number of reciprocal cells :   4x  4x  4
+
+ Calculating long-range (dipole-dipole) FCs in the supercell ... done.
+ Now, move on to phonon calculations.
+
+ Diagonalizing dynamical matrices for all k points ... done!
+
+ Start calculating anharmonic phonon self-energies ... 
+ Total Number of phonon modes to be calculated : 525
+ All modes are distributed to MPI threads as the following :
+ RANK:     1 MODES:   132
+ RANK:     2 MODES:   131
+ RANK:     3 MODES:   131
+ RANK:     4 MODES:   131
+
+ MODE     1 done.
+ MODE     2 done.
+ MODE     3 done.
+ MODE     4 done.
+ MODE     5 done.
+ MODE     6 done.
+ MODE     7 done.
+ MODE     8 done.
+ MODE     9 done.
+ MODE    10 done.
+ MODE    11 done.
+ MODE    12 done.
+ MODE    13 done.
+ MODE    14 done.
+ MODE    15 done.
+ MODE    16 done.
+ MODE    17 done.
+ MODE    18 done.
+ MODE    19 done.
+ MODE    20 done.
+ MODE    21 done.
+ MODE    22 done.
+ MODE    23 done.
+ MODE    24 done.
+ MODE    25 done.
+ MODE    26 done.
+ MODE    27 done.
+ MODE    28 done.
+ MODE    29 done.
+ MODE    30 done.
+ MODE    31 done.
+ MODE    32 done.
+ MODE    33 done.
+ MODE    34 done.
+ MODE    35 done.
+ MODE    36 done.
+ MODE    37 done.
+ MODE    38 done.
+ MODE    39 done.
+ MODE    40 done.
+ MODE    41 done.
+ MODE    42 done.
+ MODE    43 done.
+ MODE    44 done.
+ MODE    45 done.
+ MODE    46 done.
+ MODE    47 done.
+ MODE    48 done.
+ MODE    49 done.
+ MODE    50 done.
+ MODE    51 done.
+ MODE    52 done.
+ MODE    53 done.
+ MODE    54 done.
+ MODE    55 done.
+ MODE    56 done.
+ MODE    57 done.
+ MODE    58 done.
+ MODE    59 done.
+ MODE    60 done.
+ MODE    61 done.
+ MODE    62 done.
+ MODE    63 done.
+ MODE    64 done.
+ MODE    65 done.
+ MODE    66 done.
+ MODE    67 done.
+ MODE    68 done.
+ MODE    69 done.
+ MODE    70 done.
+ MODE    71 done.
+ MODE    72 done.
+ MODE    73 done.
+ MODE    74 done.
+ MODE    75 done.
+ MODE    76 done.
+ MODE    77 done.
+ MODE    78 done.
+ MODE    79 done.
+ MODE    80 done.
+ MODE    81 done.
+ MODE    82 done.
+ MODE    83 done.
+ MODE    84 done.
+ MODE    85 done.
+ MODE    86 done.
+ MODE    87 done.
+ MODE    88 done.
+ MODE    89 done.
+ MODE    90 done.
+ MODE    91 done.
+ MODE    92 done.
+ MODE    93 done.
+ MODE    94 done.
+ MODE    95 done.
+ MODE    96 done.
+ MODE    97 done.
+ MODE    98 done.
+ MODE    99 done.
+ MODE   100 done.
+ MODE   101 done.
+ MODE   102 done.
+ MODE   103 done.
+ MODE   104 done.
+ MODE   105 done.
+ MODE   106 done.
+ MODE   107 done.
+ MODE   108 done.
+ MODE   109 done.
+ MODE   110 done.
+ MODE   111 done.
+ MODE   112 done.
+ MODE   113 done.
+ MODE   114 done.
+ MODE   115 done.
+ MODE   116 done.
+ MODE   117 done.
+ MODE   118 done.
+ MODE   119 done.
+ MODE   120 done.
+ MODE   121 done.
+ MODE   122 done.
+ MODE   123 done.
+ MODE   124 done.
+ MODE   125 done.
+ MODE   126 done.
+ MODE   127 done.
+ MODE   128 done.
+ MODE   129 done.
+ MODE   130 done.
+ MODE   131 done.
+ MODE   132 done.
+
+ -----------------------------------------------------------------
+
+ Lattice thermal conductivity is stored in the file STO_scph_300K.kl
+
+ Job finished at Sun Jun 26 17:03:44 2022
+

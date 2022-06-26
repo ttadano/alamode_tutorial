@@ -1,0 +1,21 @@
+&general
+ PREFIX = STO_scph_300K
+ MODE = RTA
+ NKD = 3; KD = Sr Ti O
+ FCSXML = STO_anharm.xml 
+ FC2XMl = STO222_scph_300K.xml
+ NONANALYTIC = 3; BORNINFO = BORN
+ TMIN = 300; TMAX = 300
+/
+
+&cell
+7.363
+1.0 0.0 0.0 
+0.0 1.0 0.0
+0.0 0.0 1.0
+/
+
+&kpoint
+2
+9 9 9
+/

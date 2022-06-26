@@ -1,0 +1,275 @@
+ +-----------------------------------------------------------------+
+ +                         Program ANPHON                          +
+ +                             Ver.  1.4.0                         +
+ +-----------------------------------------------------------------+
+
+ Job started at Fri Jun 24 14:15:01 2022
+
+ The number of MPI processes: 4
+ The number of OpenMP threads: 1
+
+
+ Input variables:
+ -----------------------------------------------------------------
+ General:
+  PREFIX = Si_q10
+  MODE = RTA
+  FCSXML = super222_cubic.xml
+
+  NKD = 1; KD =   Si
+  MASS = 
+  NSYM = 0; TOLERANCE = 0.001; PRINTSYM = 0
+
+  NONANALYTIC = 0
+
+  TMIN = 0; TMAX = 1000; DT = 10
+  EMIN = 0; EMAX = 600; DELTA_E = 1
+
+  ISMEAR = -1; EPSILON = 10
+
+  CLASSICAL = 0
+  BCONNECT = 0
+
+  RESTART = 0
+  TRISYM = 1
+
+
+ Kpoint:
+  KPMODE (1st entry for &kpoint) = 2
+
+
+ Analysis:
+  ISOTOPE = 0
+  KAPPA_SPEC = 0
+
+
+ -----------------------------------------------------------------
+
+                        MODE = RTA                           
+                                                             
+      Calculation of phonon line width (lifetime) and        
+      lattice thermal conductivity within the RTA            
+      (relaxation time approximation).                       
+      Harmonic and anharmonic force constants will be used.  
+
+ -----------------------------------------------------------------
+
+ Crystal structure
+ =================
+
+ Lattice Vectors:
+
+ * Supercell (from super222_cubic.xml )
+
+    2.042038e+01   0.000000e+00   0.000000e+00 : a1
+    0.000000e+00   2.042038e+01   0.000000e+00 : a2
+    0.000000e+00   0.000000e+00   2.042038e+01 : a3
+
+    3.076919e-01   0.000000e+00   0.000000e+00 : b1
+    0.000000e+00   3.076919e-01   0.000000e+00 : b2
+    0.000000e+00   0.000000e+00   3.076919e-01 : b3
+
+ * Primitive cell 
+
+    0.000000e+00   5.105095e+00   5.105095e+00 : a1
+    5.105095e+00   0.000000e+00   5.105095e+00 : a2
+    5.105095e+00   5.105095e+00   0.000000e+00 : a3
+
+   -6.153838e-01   6.153838e-01   6.153838e-01 : b1
+    6.153838e-01  -6.153838e-01   6.153838e-01 : b2
+    6.153838e-01   6.153838e-01  -6.153838e-01 : b3
+
+
+  Volume of the primitive cell : 2.660979e+02 (a.u.)^3
+
+  Number of atoms in the supercell     : 64
+  Number of atoms in the primitive cell: 2
+
+  Atomic positions in the primitive cell (fractional):
+   1:  -1.000000e+00   1.000000e+00   1.000000e+00  Si
+   2:  -7.500000e-01   1.250000e+00   1.250000e+00  Si
+
+  Mass of atomic species (u):
+  Si:   28.085500
+
+
+ Symmetry
+ ========
+
+  NSYM = 0 is given: Trying to find symmetry operations.
+  Number of symmetry operations : 48
+
+ k points
+ ========
+
+  KPMODE = 2: Uniform grid
+  Gamma-centered uniform grid with the following mesh density: 
+  nk1:  10
+  nk2:  10
+  nk3:  10
+
+  Number of k points : 1000
+  Number of irreducible k points : 47
+
+  List of irreducible k points (reciprocal coordinate, weight) : 
+      1:   0.00000e+00   0.00000e+00   0.00000e+00   0.001000
+      2:   0.00000e+00   0.00000e+00   1.00000e-01   0.008000
+      3:   0.00000e+00   0.00000e+00   2.00000e-01   0.008000
+      4:   0.00000e+00   0.00000e+00   3.00000e-01   0.008000
+      5:   0.00000e+00   0.00000e+00   4.00000e-01   0.008000
+      6:   0.00000e+00   0.00000e+00  -5.00000e-01   0.004000
+      7:   0.00000e+00   1.00000e-01   1.00000e-01   0.006000
+      8:   0.00000e+00   1.00000e-01   2.00000e-01   0.024000
+      9:   0.00000e+00   1.00000e-01   3.00000e-01   0.024000
+     10:   0.00000e+00   1.00000e-01   4.00000e-01   0.024000
+     11:   0.00000e+00   1.00000e-01  -5.00000e-01   0.024000
+     12:   0.00000e+00   1.00000e-01  -4.00000e-01   0.024000
+     13:   0.00000e+00   1.00000e-01  -3.00000e-01   0.024000
+     14:   0.00000e+00   1.00000e-01  -2.00000e-01   0.024000
+     15:   0.00000e+00   1.00000e-01  -1.00000e-01   0.012000
+     16:   0.00000e+00   2.00000e-01   2.00000e-01   0.006000
+     17:   0.00000e+00   2.00000e-01   3.00000e-01   0.024000
+     18:   0.00000e+00   2.00000e-01   4.00000e-01   0.024000
+     19:   0.00000e+00   2.00000e-01  -5.00000e-01   0.024000
+     20:   0.00000e+00   2.00000e-01  -4.00000e-01   0.024000
+     21:   0.00000e+00   2.00000e-01  -3.00000e-01   0.024000
+     22:   0.00000e+00   2.00000e-01  -2.00000e-01   0.012000
+     23:   0.00000e+00   3.00000e-01   3.00000e-01   0.006000
+     24:   0.00000e+00   3.00000e-01   4.00000e-01   0.024000
+     25:   0.00000e+00   3.00000e-01  -5.00000e-01   0.024000
+     26:   0.00000e+00   3.00000e-01  -4.00000e-01   0.024000
+     27:   0.00000e+00   3.00000e-01  -3.00000e-01   0.012000
+     28:   0.00000e+00   4.00000e-01   4.00000e-01   0.006000
+     29:   0.00000e+00   4.00000e-01  -5.00000e-01   0.024000
+     30:   0.00000e+00   4.00000e-01  -4.00000e-01   0.012000
+     31:   0.00000e+00  -5.00000e-01  -5.00000e-01   0.003000
+     32:   1.00000e-01   2.00000e-01   3.00000e-01   0.024000
+     33:   1.00000e-01   2.00000e-01   4.00000e-01   0.048000
+     34:   1.00000e-01   2.00000e-01  -5.00000e-01   0.048000
+     35:   1.00000e-01   2.00000e-01  -4.00000e-01   0.024000
+     36:   1.00000e-01   3.00000e-01   4.00000e-01   0.024000
+     37:   1.00000e-01   3.00000e-01  -5.00000e-01   0.048000
+     38:   1.00000e-01   3.00000e-01  -4.00000e-01   0.048000
+     39:   1.00000e-01   3.00000e-01  -3.00000e-01   0.048000
+     40:   1.00000e-01   3.00000e-01  -2.00000e-01   0.024000
+     41:   1.00000e-01   4.00000e-01  -5.00000e-01   0.024000
+     42:   1.00000e-01   4.00000e-01  -4.00000e-01   0.048000
+     43:   1.00000e-01   4.00000e-01  -3.00000e-01   0.024000
+     44:   1.00000e-01  -5.00000e-01  -4.00000e-01   0.012000
+     45:   2.00000e-01   4.00000e-01  -4.00000e-01   0.024000
+     46:   2.00000e-01   4.00000e-01  -3.00000e-01   0.024000
+     47:   2.00000e-01  -5.00000e-01  -3.00000e-01   0.012000
+
+ Force constant
+ ==============
+
+  Reading force constants from the XML file ... done !
+  Number of non-zero IFCs for 2 order: 1710
+  Number of non-zero IFCs for 3 order: 6708
+
+  Maximum deviation from the translational invariance: 
+   Order 2 : 2.619161e-16
+   Order 3 : 2.498002e-16
+
+
+ Dynamical matrix
+ ================
+
+  NONANALYTIC = 0 : No non-analytic correction. 
+
+
+ -----------------------------------------------------------------
+
+
+ ISMEAR = -1: Tetrahedron method will be used.
+
+ Now, move on to phonon calculations.
+
+ Diagonalizing dynamical matrices for all k points ... done!
+
+ Start calculating anharmonic phonon self-energies ... 
+ Total Number of phonon modes to be calculated : 282
+ All modes are distributed to MPI threads as the following :
+ RANK:     1 MODES:    71
+ RANK:     2 MODES:    71
+ RANK:     3 MODES:    70
+ RANK:     4 MODES:    70
+
+ MODE     1 done.
+ MODE     2 done.
+ MODE     3 done.
+ MODE     4 done.
+ MODE     5 done.
+ MODE     6 done.
+ MODE     7 done.
+ MODE     8 done.
+ MODE     9 done.
+ MODE    10 done.
+ MODE    11 done.
+ MODE    12 done.
+ MODE    13 done.
+ MODE    14 done.
+ MODE    15 done.
+ MODE    16 done.
+ MODE    17 done.
+ MODE    18 done.
+ MODE    19 done.
+ MODE    20 done.
+ MODE    21 done.
+ MODE    22 done.
+ MODE    23 done.
+ MODE    24 done.
+ MODE    25 done.
+ MODE    26 done.
+ MODE    27 done.
+ MODE    28 done.
+ MODE    29 done.
+ MODE    30 done.
+ MODE    31 done.
+ MODE    32 done.
+ MODE    33 done.
+ MODE    34 done.
+ MODE    35 done.
+ MODE    36 done.
+ MODE    37 done.
+ MODE    38 done.
+ MODE    39 done.
+ MODE    40 done.
+ MODE    41 done.
+ MODE    42 done.
+ MODE    43 done.
+ MODE    44 done.
+ MODE    45 done.
+ MODE    46 done.
+ MODE    47 done.
+ MODE    48 done.
+ MODE    49 done.
+ MODE    50 done.
+ MODE    51 done.
+ MODE    52 done.
+ MODE    53 done.
+ MODE    54 done.
+ MODE    55 done.
+ MODE    56 done.
+ MODE    57 done.
+ MODE    58 done.
+ MODE    59 done.
+ MODE    60 done.
+ MODE    61 done.
+ MODE    62 done.
+ MODE    63 done.
+ MODE    64 done.
+ MODE    65 done.
+ MODE    66 done.
+ MODE    67 done.
+ MODE    68 done.
+ MODE    69 done.
+ MODE    70 done.
+ MODE    71 done.
+
+ -----------------------------------------------------------------
+
+ Lattice thermal conductivity is stored in the file Si_q10.kl
+
+ Job finished at Fri Jun 24 14:15:03 2022
+

@@ -1,0 +1,16 @@
+  general:
+  System = Graphene
+  ISTART = 0 ; ICHARG=2
+  ENCUT  =    1000
+  ISMEAR = 0; SIGMA = 0.2;
+  EDIFF = 1.0E-8
+
+  LSCALAPACK=.False.
+  NPAR = 12
+  PREC = Accurate
+
+  ADDGRID = .True.
+  LREAL = .False.
+
+  LWAVE = .False.
+  LCHARG= .False.

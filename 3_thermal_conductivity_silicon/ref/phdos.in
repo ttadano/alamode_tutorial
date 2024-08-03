@@ -1,0 +1,23 @@
+&general
+ PREFIX = Si2 # Use Si2 for ISMEAR = 1
+ MODE = phonons
+ NKD = 1; KD = Si
+ FCSXML = super222_cubic.xml
+ EMIN = 0; EMAX = 550; DELTA_E = 1.0
+ # Tetrahedron
+ #ISMEAR = -1
+ # Gaussian broadening
+ ISMEAR = 1; EPSILON = 7.0
+/
+
+&cell
+   10.21019025584864572792
+   0.0 0.5 0.5
+   0.5 0.0 0.5
+   0.5 0.5 0.0
+/
+
+&kpoint
+2
+20 20 20
+/

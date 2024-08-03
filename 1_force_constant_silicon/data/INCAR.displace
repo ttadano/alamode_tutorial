@@ -1,0 +1,15 @@
+ PREC = Accurate
+ ENCUT = 550
+ EDIFF = 1.0e-8
+ ISMEAR = 0 
+ SIGMA = 0.05
+ ALGO= Normal
+ LREAL = .FALSE.
+ ADDGRID = .TRUE.
+ LWAVE = .FALSE.
+ LCHARG = .FALSE.
+ ICHARG= 2
+ ISTART=0
+ NELM=200
+
+ NPAR = 12

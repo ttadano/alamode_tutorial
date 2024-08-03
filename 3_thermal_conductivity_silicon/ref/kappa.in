@@ -1,0 +1,25 @@
+&general
+ PREFIX = Si_q10
+ MODE = RTA
+ NKD = 1; KD = Si
+ FCSXML = super222_cubic.xml
+ EMIN = 0; EMAX = 550; DELTA_E = 1.0
+ TMIN = 0; TMAX = 1000; DT = 10
+/
+
+&cell
+   10.210190
+   0.0 0.5 0.5
+   0.5 0.0 0.5
+   0.5 0.5 0.0
+/
+
+&kpoint
+2
+10 10 10
+/
+
+&analysis
+ KAPPA_SPEC = 1
+# ISOTOPE = 2
+/

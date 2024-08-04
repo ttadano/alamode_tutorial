@@ -1,9 +1,8 @@
 &general
- PREFIX = STO_scph_300K_444_NA3
+ PREFIX = STO222_NA
  MODE = phonons
  NKD = 3; KD = Sr Ti O
- #FCSXMl = STO222_scph_300K.xml
- FCSXMl = STO_scph_300K_444.xml
+ FCSXMl = STO222.xml
  NONANALYTIC = 3; BORNINFO = BORN
  TMIN = 300; TMAX = 300
 /

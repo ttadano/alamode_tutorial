@@ -3,15 +3,15 @@
  +                             Ver.  1.5.0                         +
  +-----------------------------------------------------------------+
 
- Number of OpenMP threads = 1
+ Number of OpenMP threads = 12
 
- Job started at Sun Aug  4 23:44:09 2024
+ Job started at Sun Aug  4 23:48:29 2024
 
 
  Input variables:
  -------------------------------------------------------------------
  General:
-  PREFIX = STO222
+  PREFIX = STO_anharm
   MODE = optimize
   NAT = 40; NKD = 3
   PRINTSYM = 0; TOLERANCE = 0.001
@@ -19,7 +19,7 @@
   FCSYM_BASIS = Lattice
   PERIODIC =   1  1  1
   MAGMOM = 
-  FCS_ALAMODE = 1;  NMAXSAVE = 5
+  FCS_ALAMODE = 1;  NMAXSAVE = 3
   FC3_SHENGBTE = 0
   FC4_SHENGBTE = 0
   FC2_QEFC = 0
@@ -27,17 +27,17 @@
   FC_ZERO_THR = 1e-12
 
  Interaction:
-  NORDER = 1
-  NBODY =   2
+  NORDER = 5
+  NBODY =   2  3  3  2  2
 
  Optimize:
-  LMODEL = least-squares
-  DFSET = ../data/DFSET_harmonic
-  NDATA = 4; NSTART = 1; NEND = 4   SKIP = 
+  LMODEL = elastic-net
+  DFSET = ../data/DFSET_AIMD+random
+  NDATA = 40; NSTART = 1; NEND = 40   SKIP = 
 
   ICONST = 11
   ROTAXIS = 
-  FC2XML = 
+  FC2XML = STO222.xml
   FC3XML = 
 
   SPARSE = 0
@@ -45,6 +45,19 @@
   CONV_TOL = 1e-08
   MAXITER = 10000
   PERIODIC_IMAGE_CONV = 1
+
+ Elastic-net related variables:
+  CV =     0
+  DFSET_CV = ../data/DFSET_AIMD+random
+  NDATA_CV = 40; NSTART_CV = 1; NEND_CV = 40
+
+  L1_RATIO = 1
+  L1_ALPHA = 3.4548e-06
+  CV_MINALPHA = -1; CV_MAXALPHA = -1;  CV_NALPHA = 50
+  STANDARDIZE = 1
+  ENET_DNORM = 1
+  NWRITE =  1000
+  DEBIAS_OLS = 0
 
  -------------------------------------------------------------------
 
@@ -111,7 +124,7 @@
     40   7.500000e-01   7.500000e-01   5.000000e-01    3
 
 
-  Time Elapsed: 0.002209 sec.
+  Time Elapsed: 0.005323 sec.
 
  -------------------------------------------------------------------
 
@@ -144,7 +157,7 @@
      8 |     8   16   32   38   40
        | 
 
-  Time Elapsed: 0.014746 sec.
+  Time Elapsed: 0.016242 sec.
 
  -------------------------------------------------------------------
 
@@ -153,6 +166,10 @@
 
 check permutation symmetry of the clusters.
 (if no message is printed out, the permutation symmetry is satisfied.)
+  CUBIC ...
+  QUARTIC ...
+5-th ORDER ...
+6-th ORDER ...
 done.
 
   +++ Cutoff Radii Matrix (NKD x NKD matrix) +++
@@ -160,6 +177,26 @@ done.
      None     None     None
      None     None     None
      None     None     None
+
+    ANHARM3
+     None     None     None
+     None     None     None
+     None     None     None
+
+    ANHARM4
+       12       12       12
+       12       12       12
+       12       12       12
+
+    ANHARM5
+       12       12       12
+       12       12       12
+       12       12       12
+
+    ANHARM6
+       12       12       12
+       12       12       12
+       12       12       12
 
 
   List of neighboring atoms below.
@@ -229,7 +266,10 @@ done.
                7   11.0445 (  2) -  15( Ti)  16( Ti)
                8   12.7531 (  1) -  40(  O)
 
-  Time Elapsed: 0.016736 sec.
+  For  ANHARM4, interactions related to more than 3 atoms will be neglected.
+  For  ANHARM5, interactions related to more than 2 atoms will be neglected.
+  For  ANHARM6, interactions related to more than 2 atoms will be neglected.
+  Time Elapsed: 1.41131 sec.
 
  -------------------------------------------------------------------
 
@@ -239,8 +279,12 @@ done.
   Symmetry is handled in crystallographic (fractional) coordinates.
 
   Number of  HARMONIC FCs : 49
+  Number of   ANHARM3 FCs : 746
+  Number of   ANHARM4 FCs : 4527
+  Number of   ANHARM5 FCs : 386
+  Number of   ANHARM6 FCs : 1143
 
-  Time Elapsed: 0.019554 sec.
+  Time Elapsed: 3.49772 sec.
 
  -------------------------------------------------------------------
 
@@ -250,56 +294,85 @@ done.
   ICONST = 1: Constraints for translational invariance
               will be considered.
 
+  FC2XML is given : Harmonic force constants will be 
+                    fixed to the values given in STO222.xml
+
   Generating constraints for translational invariance ...
    HARMONIC ... done.
+    ANHARM3 ... done.
+    ANHARM4 ... done.
+    ANHARM5 ... done.
+    ANHARM6 ... done.
   Finished !
 
   Number of constraints [T-inv, R-inv (self), R-inv (cross)]:
    HARMONIC      4    0    0
+    ANHARM3     97    0    0
+    ANHARM4   2422    0    0
+    ANHARM5    343    0    0
+    ANHARM6   1018    0    0
 
   Constraints of T-inv and R-inv (self) are merged.
   If there are redundant constraints, they are removed in this process.
 
   Number of inequivalent constraints (self, cross) : 
    HARMONIC      4    0
+    ANHARM3     97    0
+    ANHARM4   2422    0
+    ANHARM5    343    0
+    ANHARM6   1018    0
 
   ICONST >= 10 : Constraints will be considered algebraically.
 
-  Number of free HARMONIC FCs : 45
+  Number of free HARMONIC FCs : 0
+  Number of free  ANHARM3 FCs : 649
+  Number of free  ANHARM4 FCs : 2105
+  Number of free  ANHARM5 FCs : 43
+  Number of free  ANHARM6 FCs : 125
 
-  Time Elapsed: 0.019974 sec.
+  Time Elapsed: 4.71882 sec.
 
  -------------------------------------------------------------------
 
  OPTIMIZATION
  ============
 
-  LMODEL = least-squares
+  LMODEL = elastic-net
 
-  Training data file (DFSET) : ../data/DFSET_harmonic
+  Training data file (DFSET) : ../data/DFSET_AIMD+random
 
-  NSTART = 1; NEND = 4
-  4 entries will be used for training.
+  NSTART = 1; NEND = 40
+  40 entries will be used for training.
 
-  Total Number of Parameters : 49
-  Total Number of Free Parameters : 45
+  Total Number of Parameters : 6851
+  Total Number of Free Parameters : 2922
 
-  Entering fitting routine: SVD with constraints considered algebraically.
-  SVD has started ... finished !
+  Elastic-net minimization with the following parameters:
+   L1_RATIO = 1
+   ENET_DNORM =               1
+  STANDARDIZE = 1 : Standardization will be performed for matrix A and vector b.
+                    The ENET_DNORM-tag will be neglected.
 
-  RANK of the matrix = 45
+   L1_ALPHA =      3.4548e-06
+   CONV_TOL =           1e-08
+   MAXITER = 10000
 
-  Residual sum of squares for the solution: 0.000208475
-  Fitting error (%) : 1.53358
+  RESIDUAL (%): 2.59676
+  Number of non-zero  HARMONIC FCs : 0
+  Number of non-zero   ANHARM3 FCs : 507
+  Number of non-zero   ANHARM4 FCs : 1302
+  Number of non-zero   ANHARM5 FCs : 37
+  Number of non-zero   ANHARM6 FCs : 88
 
-  Time Elapsed: 0.023647 sec.
+
+  Time Elapsed: 26.2009 sec.
 
  -------------------------------------------------------------------
 
  The following files are created:
 
- Force constants in a human-readable format : STO222.fcs
- Input data for the phonon code ANPHON      : STO222.xml
+ Force constants in a human-readable format : STO_anharm.fcs
+ Input data for the phonon code ANPHON      : STO_anharm.xml
 
- Job finished at Sun Aug  4 23:44:09 2024
+ Job finished at Sun Aug  4 23:48:59 2024
 

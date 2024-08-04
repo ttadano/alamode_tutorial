@@ -3,9 +3,9 @@
  MODE = SCPH
  NKD = 3; KD = Sr Ti O
  FCSXML = STO_anharm.xml 
- NONANALYTIC = 2; BORNINFO = BORN
+ NONANALYTIC = 3; BORNINFO = BORN
  TMIN =0; TMAX = 1000; DT = 50
- EMIN = -100; EMAX = 850; DELTA_E = 1.0
+ DELTA_E = 1.0
 /
 
 &scph
@@ -23,7 +23,7 @@
 0.0 0.0 1.0
 /
 
-&kpoint
+&kpoint2
  2
  10 10 10
 /
@@ -32,7 +32,7 @@
  PRINTMSD = 1
 /
 
-&kpoint2
+&kpoint
 1
 G 0.0 0.0 0.0 X 0.5 0.0 0.0 51
 X 0.5 0.0 0.0 M 0.5 0.5 0.0 51

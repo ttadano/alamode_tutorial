@@ -1967,7 +1967,7 @@ Scattering intensity 　$\tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1} = \frac{2|\bo
 #### 3-Phonon Scattering + Isotope Scattering + Grain Boundary Scattering $\tau_{\boldsymbol{q}j}^{-1} = \tau_{\boldsymbol{q}j,\mathrm{anh}}^{-1} + \tau_{\boldsymbol{q}j,\mathrm{ph-iso}}^{-1}+ \tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1}$
 
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">python -m analyze_phonons --calc kappa_boundary --isotope Si.self_isotpe --size 1.0e+5 Si_q10.result > Si_iso_boundary.kl
+  <pre><code class="language-bash">python -m analyze_phonons --calc kappa_boundary --isotope Si_q10.self_isotope --size 1.0e+5 Si_q10.result > Si_iso_boundary.kl
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -2489,7 +2489,7 @@ img[alt~="right-center"] {
 - This time, calculations are performed using pure OpenMP parallelism.
 
   <div class="code-block-wrapper">
-    <pre><code class="language-bash">export OMP_NUM_THREADS=
+    <pre><code class="language-bash">export OMP_NUM_THREADS=4
   mpirun -np 1 anphon scph.in > scph.log  
   </code></pre>
     <button class="copy-button">Copy</button>
@@ -2572,8 +2572,8 @@ Let's plot it.
 gnuplot> set terminal qt font “Helvetica,20”
 gnuplot> set ylabel “Frequency (cm^{-1})”
 gnuplot> unset key
-gnuplot> plot for [col=3:17] “STO_scph2-2.scph_bands” usi 2:col w l lt 1
-gnuplot> replot for [col=2:16] “STO222_NA2.bands” usi 1:col w l lt 2
+gnuplot> plot for [col=3:17] "STO_scph2-2.scph_bands" usi 2:col w l lt 1
+gnuplot> replot for [col=2:16] “STO222_NA.bands” usi 1:col w l lt 2
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -2786,7 +2786,7 @@ To calculate the temperature dependence of thermal conductivity using SCPH, you 
 
 2. Execute the script
     <div class="code-block-wrapper">
-      <pre><code class="language-bash">bash ./autocalc.sh &</code></pre>
+      <pre><code class="language-bash">bash ./autocalc.sh >& log &</code></pre>
       <button class="copy-button">Copy</button>
     </div>
 

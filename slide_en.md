@@ -60,28 +60,28 @@ input[type="checkbox"] {
 }
 </style>
 
-# ALAMODEハンズオン講習会 –CCMS講習会–
+# ALAMODE Hands-on Workshop – CCMS Workshop –
 
-#### 2024年8月5日
+#### August 5, 2024
 
 <br><br><br>
 
-### 講師: 只野 央将 (NIMS)
+### Instructor: Terumasa Tadano (NIMS)
 
-### TA: 増木 亮太（東京大学）
+### TA: Ryota Masuki (The University of Tokyo)
 
-### 謝辞：CCMSスタッフの皆様、物性研スパコン計算資源
+### Acknowledgments: CCMS staff, Supercomputer resources at the Institute of Solid State Physics
 
 ---
 
-# 本日のスケジュール
+# Today's Schedule
 
-- ALAMODEの概要 (**60**分)
-- MateriApps LIVE!を利用したハンズオン（Force constantの計算）(**45**分)
-- 物性研スパコンを利用したハンズオン (熱伝導率、有限温度フォノン計算) (**45**分)
-- 今後の展望 (**10**分)
+- Overview of ALAMODE (**60** minutes)
+- Hands-on using MateriApps LIVE! (Calculation of force constants) (**45** minutes)
+- Hands-on using the supercomputer at the Institute of Solid State Physics (Thermal conductivity, finite temperature phonon calculations) (**45** minutes)
+- Future prospects (**10** minutes)
 
-できれば概要説明を短めにして、ハンズオン時間を多めに取りたいと思います。
+If possible, I would like to keep the overview brief and allocate more time for hands-on activities.
 
 ---
 
@@ -89,45 +89,45 @@ input[type="checkbox"] {
 
 ![w:800](./assets/alamode_top.png)
 
-- フォノンの非調和効果を計算するためのオープンソースアプリ
-- MITライセンス
-- 最新版は1.5.0 (2024年2月リリース)
-- 主にC++で書かれている。補助的にPythonを利用。
+- An open-source application for calculating anharmonic effects of phonons
+- MIT License
+- The latest version is 1.5.0 (released in February 2024)
+- Primarily written in C++. Python is used as a supplementary tool.
 - https://alamode.readthedocs.io
 
 ---
 
-# 主要機能
+# Key Features
 
-1. 線形回帰による調和・非調和力定数の推定 (ハンズオン1)
-1. 格子熱伝導率計算 (ハンズオン2)
-1. 自己無撞着フォノン（SCP）法による有限温度フォノン計算 (ハンズオン2)
-1. 準調和近似またはSCP法に基づく有限温度構造最適化
+1. Estimation of harmonic and anharmonic force constants using linear regression (Hands-on 1)
+1. Calculation of lattice thermal conductivity (Hands-on 2)
+1. Finite temperature phonon calculations using the Self-Consistent Phonon (SCP) method (Hands-on 2)
+1. Finite temperature structure optimization based on quasi-harmonic approximation or SCP method
 
 ---
 
-# 必要なもの
+# Requirements
 
-1. 与えた結晶構造にたいする力を計算できる外部ツール（DFTコード、経験的ポテンシャル、MLポテンシャルなど）
-   - `VASP`, `Quantum ESPRESSO`, `OpenMX`, `xTAPP`, `LAMMPS`に対するインターフェイスツールを提供。
-   - 新たにインターフェイスを作ること自体は比較的簡単
-1. コンパイラやライブラリ
+1. An external tool capable of calculating forces for the given crystal structure (DFT codes, empirical potentials, ML potentials, etc.)
+   - Provides interface tools for `VASP`, `Quantum ESPRESSO`, `OpenMX`, `xTAPP`, `LAMMPS`.
+   - Creating a new interface is relatively straightforward.
+1. Compilers and libraries
    - Boost, Eigen, LAPACK, MPI
-1. Pythonの解析ツール
-   - numpy, scipy, matplotlib, libxml, spglib, pymatgen, h5pyなど
+1. Python analysis tools
+   - numpy, scipy, matplotlib, libxml, spglib, pymatgen, h5py, etc.
 
 ---
 
-# ALAMODE計算の流れ
+# ALAMODE Calculation Flow
 
 ![w:1000](./assets/alamode_tutorial.png)
 
-- almコード：力定数の計算
-- anphonコード：フォノン、熱伝導、SCPH計算
+- alm code: Calculation of force constants
+- anphon code: Phonon, thermal conductivity, SCPH calculations
 
 ---
 
-# ポテンシャルエネルギーのTaylor展開
+# Taylor Expansion of Potential Energy
 
 <style scoped>
 section {
@@ -144,11 +144,11 @@ img[alt~="top-right"] {
 }
 </style>
 
-#### 仮定
+#### Assumptions
 
-- Born–Oppenheimer（BO）近似
-- BOエネルギー曲面が原子変位の解析関数
-- 原子変位が小さい
+- Born–Oppenheimer (BO) approximation
+- BO energy surface is an analytic function of atomic displacements
+- Atomic displacements are small
 
 ![top-right](./assets/taylor.png)
 
@@ -169,22 +169,22 @@ section {
 }
 </style>
 
-# 原子間力定数 (IFC)
+# Interatomic Force Constants (IFC)
 
-$n$次の力定数
+$n$th order force constants
 $$
 \Phi_{\mu_{1}\dots\mu_{n}}(\ell_{1}\kappa_{1};\dots;\ell_{n}\kappa_{n}) 
 = \frac{\partial^{n} U}{\partial u_{\mu_{1}}(\ell_{1}\kappa_{1})\cdots \partial u_{\mu_{n}}(\ell_{n}\kappa_{n})}\bigg|_{\{u\}=0}
 $$
 <br>
 
-- 2次（調和）項　→　フォノン分散（0 K）
-- 3次　　　　項　→　フォノン−フォノン散乱、熱膨張、...
-- 4次　　　　項　→　有限温度フォノン、高次フォノン散乱
+- 2nd order (harmonic) term → Phonon dispersion (0 K)
+- 3rd order term → Phonon-phonon scattering, thermal expansion, ...
+- 4th order term → Finite temperature phonons, higher-order phonon scattering
 
 ---
 
-# 調和近似
+# Harmonic Approximation
 
 <style scoped>
 section {
@@ -201,7 +201,7 @@ img[alt~="bottom-left"] {
 <div class="columns">
 <div>
 
-#### 非調和項を無視
+#### Ignoring Anharmonic Terms
 
 $$
 U - U_{0} = U_{2} + U_{3} + U_{4} + \cdots \approx U_{2}
@@ -213,7 +213,7 @@ $$
 
 <div>
 
-#### ハミルトニアン
+#### Hamiltonian
 
 $$
 \begin{aligned}
@@ -227,7 +227,7 @@ $$
 
 <br>
 
-#### 動力学行列
+#### Dynamical Matrix
 
 $$
 D_{\mu\nu}(\kappa\kappa';\boldsymbol{q}) = \frac{1}{\sqrt{M_{\kappa}M_{\kappa'}}}
@@ -242,7 +242,7 @@ $$
 
 ---
 
-# IFCの第一原理計算
+# First-Principles Calculations of IFC
 
 <style scoped>
 section {
@@ -263,15 +263,15 @@ section {
       <th>Pros.</th>
       <td style="width: 450px; word-wrap: break-word;">
       <ul style="font-size: 18px;">
-      <li> Primitive cellでq≠0のフォノンが計算可能。効率的。</li>
-      <li> 誘電テンソルやボルン有効電荷、電子格子相互作用も計算可能。</li>
+      <li> Phonons with q≠0 can be calculated in the primitive cell. Efficient.</li>
+      <li> Dielectric tensor, Born effective charges, and electron-phonon interactions can also be calculated.</li>
       </ul>
       </td>
       <td style="width: 450px; word-wrap: break-word;">
       <ul style="font-size: 18px;">
-      <li> 実装が比較的簡単。</li>
-      <li> 高次項の推定も可能。</li>
-      <li> 力さえ計算出来れば良いので、組み合わせられる汎関数が多い。</li>
+      <li> Implementation is relatively straightforward.</li>
+      <li> Higher-order terms can also be estimated.</li>
+      <li> As long as forces can be calculated, many functionals can be combined.</li>
       </ul>
       </td>
     </tr>
@@ -279,23 +279,23 @@ section {
       <th>Cons.</th>
       <td style="width: 400px; word-wrap: break-word;">
       <ul style="font-size: 18px;">
-      <li> 3次項まで。より高次の項は差分法を使う必要あり。</li>
-      <li> Meta-GGAやハイブリッド汎関数などと組み合わせた計算がサポートされていない。</li>
+      <li> Up to third-order terms. Higher-order terms require the use of finite difference methods.</li>
+      <li> Calculations combined with Meta-GGA or hybrid functionals are not supported.</li>
       </ul>
       </td>
       <td style="width: 400px; word-wrap: break-word;">
       <ul style="font-size: 18px;">
-      <li> スーパーセルを用いる必要がある。</li>
+      <li> It is necessary to use supercells.</li>
       </ul>
       </td>
     </tr>
     <tr>
-      <th>ソフトウェア</th>
+      <th>Software</th>
       <td style="width: 400px; word-wrap: break-word;">
       <ul style="font-size: 20px;">
       <li> Quantum ESPRESSO </li>
       <li> Abinit </li>
-      <li> VASP (q=0のみ) </li>
+      <li> VASP (only q=0) </li>
       </ul>
       </td>
       <td style="width: 400px; word-wrap: break-word;">
@@ -323,7 +323,7 @@ section {
 }
 </style>
 
-# 直接法1 (差分法)
+# Direct Method 1 (Difference Method)
 
 <div class="columns">
 <div>
@@ -336,7 +336,7 @@ section {
 
 <div>
 
-### 調和項
+### Harmonic Terms
 
 $$
 \begin{aligned}
@@ -348,7 +348,7 @@ $$
 
 <br>
 
-### 3次非調和項
+### 3rd-order Anharmonic Terms
 
 $$
 \begin{aligned}
@@ -371,7 +371,7 @@ section {
 }
 </style>
 
-# 直接法2 （線形回帰）
+# Direct Method 2 (Linear Regression)
 
 $$
 \begin{aligned}
@@ -381,16 +381,16 @@ U_{\mathrm{ALM}}-U_{0} &= U_{2} + U_{3} + U_{4} + \cdots\\
 \end{aligned}
 $$
 
-このモデルから計算する力は$\boldsymbol{F}_{\mathrm{ALM}}=-\frac{\partial U_{\mathrm{ALM}}}{\partial \boldsymbol{u}} = -\frac{\partial \boldsymbol{b}^{T}}{\partial \boldsymbol{u}}\boldsymbol{\Phi} = A\boldsymbol{\Phi}$と書ける。
+The force calculated from this model is written as $\boldsymbol{F}_{\mathrm{ALM}}=-\frac{\partial U_{\mathrm{ALM}}}{\partial \boldsymbol{u}} = -\frac{\partial \boldsymbol{b}^{T}}{\partial \boldsymbol{u}}\boldsymbol{\Phi} = A\boldsymbol{\Phi}$.
 
-そこで、最小自乗法を用いて力定数$\boldsymbol{\Phi}$を計算することが出来る。
+Thus, the force constants $\boldsymbol{\Phi}$ can be calculated using the least squares method.
 
 $$
 \boldsymbol{\Phi}_{\mathrm{OLS}}
 = \underset{\boldsymbol{\Phi}}{\mathrm{argmin}} \frac{1}{2N_{d}}\| \mathbb{A}\boldsymbol{\Phi} - \mathscr{F}_{\mathrm{DFT}} \|_{2}^{2}
 $$
 
-行列$\mathbb{A}$は一つの原子変位パターンに対して計算される行列$A$を縦に連結させたもの。
+The matrix $\mathbb{A}$ is formed by vertically concatenating the matrix $A$ calculated for a single atomic displacement pattern.
 $$
 A = \begin{pmatrix}
 - u_{1}^{x} & -\frac{1}{2}u_{1}^{x}u_{2}^{x} & -\frac{1}{3!}u_{1}^{x}u_{2}^{x}u_{3}^{x} & \cdots \\
@@ -407,27 +407,27 @@ section {
 }
 </style>
 
-# 直接法2 （線形回帰）
+# Direct Method 2 (Linear Regression)
 
-#### 最小自乗法
+#### Least Squares Method
 
 $$
 \boldsymbol{\Phi}_{\mathrm{OLS}}
 = \underset{\boldsymbol{\Phi}}{\mathrm{argmin}}  \frac{1}{2N_{d}}\| \mathbb{A}\boldsymbol{\Phi} - \mathscr{F}_{\mathrm{DFT}} \|_{2}^{2}
 $$
 
-- $\boldsymbol{\Phi}_{\mathrm{OLS}}$をユニークに決めるには$\mathbb{A}^{\intercal}\mathbb{A}$をfull-rankにする必要がある。$\boldsymbol{\Phi}_{\mathrm{OLS}}$要素数が多いほど多くの学習データが必要。
+- To uniquely determine $\boldsymbol{\Phi}_{\mathrm{OLS}}$, it is necessary for $\mathbb{A}^{\intercal}\mathbb{A}$ to be full-rank. The more elements $\boldsymbol{\Phi}_{\mathrm{OLS}}$ has, the more training data is required.
 
 <br>
 
-#### ペナルティ項付きの回帰　（ここではElastic net）
+#### Regression with Penalty Term (Here, Elastic Net)
 $$
 \boldsymbol{\Phi}_{\mathrm{enet}} = \mathop{\rm argmin}\limits_{\boldsymbol{\Phi}} \frac{1}{2N_{d}}   \|\mathbb{A} \boldsymbol{\Phi} - \boldsymbol{\mathscr{F}}_{\mathrm{DFT}}\|^{2}_{2} + \alpha \beta \| \boldsymbol{\Phi}  \|_{1} + \frac{1}{2} \alpha (1-\beta) \| \boldsymbol{\Phi}  \|_{2}^{2}
 $$
 
-- $\boldsymbol{\Phi}_{\mathrm{enet}}$は$\mathbb{A}^{\intercal}\mathbb{A}$がfull-rankでなくても計算出来る。
-- $\alpha$はペナルティの強さを制御するハイパーパラメータで、例えばCross validationなどで決定する。
-- ペナルティ項には色々と種類がある（e.g., adaptive LASSO）
+- $\boldsymbol{\Phi}_{\mathrm{enet}}$ can be computed even if $\mathbb{A}^{\intercal}\mathbb{A}$ is not full-rank.
+- $\alpha$ is a hyperparameter that controls the strength of the penalty, which can be determined through methods like cross-validation.
+- There are various types of penalty terms (e.g., adaptive LASSO).
 
 ---
 
@@ -437,7 +437,7 @@ section {
 }
 </style>
 
-# IFCの対称性とsum rule
+# Symmetry and Sum Rule of IFC
 
 - Permutation 
 
@@ -451,19 +451,19 @@ $$
 \Phi_{\mu_{1}\mu_{2}\dots\mu_{n}}(\ell_{1}\kappa_{1};\ell_{2}\kappa_{2};\dots;\ell_{n}\kappa_{n})=\Phi_{\mu_{1}\mu_{2}\dots\mu_{n}}(0\kappa_{1};\ell_{2}-\ell_{1}\kappa_{2};\dots;\ell_{n}-\ell_{1}\kappa_{n}).
 $$
 
-- Space group symmetry
+- Space Group Symmetry
 
 $$
 \sum_{\nu_{1},\dots,\nu_{n}}\Phi_{\nu_{1}\dots\nu_{n}}(L_{1}K_{1};\dots;L_{n}K_{n}) O_{\nu_{1}\mu_{1}}\cdots O_{\nu_{n}\mu_{n}} = \Phi_{\mu_{1}\dots\mu_{n}}(\ell_{1}\kappa_{1};\dots;\ell_{n}\kappa_{n}),
 $$
 
-- Acoustic sum rule（並進対称性）
+- Acoustic Sum Rule (Translational Symmetry)
 
 $$
 \sum_{\ell_{1}\kappa_{1}}\Phi_{\mu_{1}\mu_{2}\dots\mu_{n}}(\ell_{1}\kappa_{1};\ell_{2}\kappa_{2};\dots;\ell_{n}\kappa_{n}) = 0
 $$
 
-これらはすべて自動的に考慮される。回転対称性についてはオプションで考慮出来るが、制限もある。
+All of these are automatically taken into account. Rotational symmetry can be considered optionally, but there are limitations.
 
 ---
 
@@ -473,23 +473,23 @@ section {
 }
 </style>
 
-# Dynamical matrixについて
+# About the Dynamical Matrix
 
-#### 無限サイズの結晶におけるDynamical matrix
+#### Dynamical Matrix in Infinite Size Crystals
 
 $$
 \bar{D}_{\mu\nu}(\kappa\kappa';\boldsymbol{q}) = \frac{1}{\sqrt{M_{\kappa}M_{\kappa'}}}\sum_{L}^{\infty}\bar{\Phi}_{\mu\nu}(0\kappa;L\kappa')e^{i\boldsymbol{q}\cdot\boldsymbol{r}(L)} 
 = \frac{1}{\sqrt{M_{\kappa}M_{\kappa'}}}\sum_{\ell'}\sum_{L_{s}}^{\infty}\bar{\Phi}_{\mu\nu}(0\kappa;L_s+\ell'\kappa')e^{i\boldsymbol{q}\cdot(\boldsymbol{r}(L_s) + \boldsymbol{r}(\ell'))}
 $$
 
-#### 周期境界条件の下で計算されたIFCから求めるDynamical Matrix
+#### Dynamical Matrix Obtained from IFC Calculated Under Periodic Boundary Conditions
 
 $$
 D_{\mu\nu}(\kappa\kappa';\boldsymbol{q}) = \frac{1}{\sqrt{M_{\kappa}M_{\kappa'}}}\sum_{\ell'}\Phi_{\mu\nu}(0\kappa;\ell'\kappa')e^{i\boldsymbol{q}\cdot\boldsymbol{r}(\ell')} 
 =\frac{1}{\sqrt{M_{\kappa}M_{\kappa'}}}\sum_{\ell'}\big[\sum_{L_s}^{\infty}\bar{\Phi}_{\mu\nu}(0\kappa;L_s+\ell'\kappa')\big]e^{i\boldsymbol{q}\cdot\boldsymbol{r}(\ell')} 
 $$
 
-一般に、上の両者は異なるが、$e^{i\boldsymbol{q}\cdot\boldsymbol{r}(L_s)}=1$がすべての$L_s$で満たされる$\boldsymbol{q}$点では完全に一致する。この$\boldsymbol{q}$点を<span class="red-text">スーパーセルサイズにcommensurateな$\boldsymbol{q}$点</span>と呼ぶ。
+In general, the two above are different, but they completely coincide at $\boldsymbol{q}$ points where $e^{i\boldsymbol{q}\cdot\boldsymbol{r}(L_s)}=1$ is satisfied for all $L_s$. This $\boldsymbol{q}$ point is referred to as a <span class="red-text">commensurate $\boldsymbol{q}$ point with the supercell size</span>.
 
 ---
 
@@ -505,16 +505,16 @@ img[alt~="top-right"] {
 }
 </style>
 
-# 格子熱伝導
+# Lattice Thermal Conductivity
 
-#### Fourier則　 $\boldsymbol{j} = -\kappa \nabla T$
+#### Fourier's Law  $\boldsymbol{j} = -\kappa \nabla T$
 
-#### フォノンガスモデル 　$\boldsymbol{j}\approx\boldsymbol{j}_{\mathrm{QP}}=\frac{1}{NV}\sum_{q}\hbar\omega_q \boldsymbol{v}_{q}\mathfrak{n}_{q}$.
+#### Phonon Gas Model  $\boldsymbol{j}\approx\boldsymbol{j}_{\mathrm{QP}}=\frac{1}{NV}\sum_{q}\hbar\omega_q \boldsymbol{v}_{q}\mathfrak{n}_{q}$.
 
-- ここで$\mathfrak{n}_{q}$は非平衡状態でのフォノン分布関数。
-$\mathfrak{n}_{q} \simeq n_{q} + \boldsymbol{f}_{q}\cdot\nabla T \beta n_q (n_{q} + 1)$と線形近似し、線形化したBoltzmann方程式を数値的に解くことで$\boldsymbol{f}_q$を求める。
+- Here, $\mathfrak{n}_{q}$ is the phonon distribution function in a non-equilibrium state. 
+By linearizing $\mathfrak{n}_{q} \simeq n_{q} + \boldsymbol{f}_{q}\cdot\nabla T \beta n_q (n_{q} + 1)$ and numerically solving the linearized Boltzmann equation, we can obtain $\boldsymbol{f}_q$.
 
-#### 線形化Boltzmann方程式
+#### Linearized Boltzmann Equation
 
 $$
 -\beta^{-1}\boldsymbol{v}_{q} \left( \frac{\partial n_{q}}{\partial T}\right) 
@@ -522,7 +522,7 @@ $$
 + \sum_{q',q''} \left[ (\boldsymbol{f}_{q} + \boldsymbol{f}_{q'} - \boldsymbol{f}_{q''})\Lambda_{qq'}^{q''} + \frac{1}{2} (\boldsymbol{f}_{q} - \boldsymbol{f}_{q'} - \boldsymbol{f}_{q''})\Lambda_{q}^{q'q''} \right] +\cdots \bigg\}
 $$
 
-#### 格子熱伝導率
+#### Lattice Thermal Conductivity
 
 $$
 \kappa = -\frac{\hbar}{NV k_{\mathrm{B}}T} \sum_{q} \omega_{q} \boldsymbol{v}_{q}\otimes\boldsymbol{f}_{q} n_{q}(n_{q} + 1).
@@ -536,11 +536,11 @@ section {
 }
 </style>
 
-# 緩和時間近似　(RTA)
+# Relaxation Time Approximation (RTA)
 
-ALAMODEでは熱伝導率計算でさらに緩和時間近似を用いている。
+In ALAMODE, the relaxation time approximation is further used in the calculation of thermal conductivity.
 
-#### 緩和時間近似
+#### Relaxation Time Approximation
 
 $$
 \begin{aligned}
@@ -549,9 +549,9 @@ $$
 \end{aligned}
 $$
 
-- 輸送緩和時間$\tau_{q}^{\mathrm{transport}}$を準粒子の寿命$\tau_{q}$で近似。
-- $\tau_{q}^{\mathrm{transport}} > \tau_{q}$であるため、RTAは熱伝導率を過小評価する傾向がある。
-- 特に高熱伝導材料ではRTAは良くない。逆に熱伝導率が低い材料ではBoltzmann方程式のfull solutionとRTAで差はほとんど無い。
+- The transport relaxation time $\tau_{q}^{\mathrm{transport}}$ is approximated by the quasiparticle lifetime $\tau_{q}$.
+- Since $\tau_{q}^{\mathrm{transport}} > \tau_{q}$, RTA tends to underestimate the thermal conductivity.
+- RTA is particularly poor for high thermal conductivity materials. Conversely, for materials with low thermal conductivity, there is little difference between the full solution of the Boltzmann equation and RTA.
 
 #### Full solution
 
@@ -565,11 +565,11 @@ section {
 }
 </style>
 
-# フォノン寿命の第一原理計算
+# First-principles calculation of phonon lifetime
 
-#### フォノン−フォノン散乱
+#### Phonon-phonon scattering
 
-- 3フォノン散乱：フォノン散乱の主要項、3次非調和IFCから計算
+- Three-phonon scattering: the main term of phonon scattering, calculated from third-order anharmonic IFC
 
 $$
 \begin{aligned}
@@ -580,18 +580,18 @@ $$
 \end{aligned}
 $$
 
-- 4フォノン散乱：高次のフォノン−フォノン散乱、ALAMODE (ver. 1.5)ではサポート対象外
+- Four-phonon scattering: higher-order phonon-phonon scattering, not supported in ALAMODE (ver. 1.5)
 
-#### フォノン−電子散乱
+#### Phonon-electron scattering
 
-- 電子励起が起こらない場合（ワイドギャップ系）ではゼロ
-- 金属や高ドープ半導体で影響が無視できない場合もある
-- `EPW`コードなどがサポートしている
+- Zero in cases where electronic excitations do not occur (wide-gap systems)
+- May be significant in metals or highly doped semiconductors
+- Supported by codes such as `EPW`
 
-#### フォノン−不純物散乱
+#### Phonon-impurity scattering
 
-- 同位体不純物の効果はALAMODEで考慮できる
-- より一般の不純物（化学置換や欠陥）の扱いは難しい。
+- The effect of isotope impurities can be considered in ALAMODE
+- Treatment of more general impurities (chemical substitution or defects) is difficult.
 
 ---
 
@@ -607,14 +607,16 @@ img[alt~="top-right"] {
 }
 </style>
 
-# 格子熱伝導率の予測例
-
 <div class="columns">
 <div>
 
-- ALAMODEを利用した計算例
+
+# Example of lattice thermal conductivity prediction
+
+
+- Calculation example using ALAMODE
 - RTA
-- 3フォノン散乱のみ
+- Three-phonon scattering only
 
 </div>
 <div>
@@ -637,13 +639,13 @@ section {
 }
 </style>
 
-# 有限温度フォノン計算
+# Finite temperature phonon calculations
 
-- これまではフォノン分散が温度に依存性しない前提だった (調和近似)
-- しかし、実際のフォノン振動数は温度変化する
-- 調和近似を使うと、イマジナリーフォノンが出てしまうケースが多い。(高温相など)
+- Until now, it was assumed that phonon dispersion does not depend on temperature (harmonic approximation)
+- However, actual phonon frequencies change with temperature
+- Using the harmonic approximation often leads to the emergence of imaginary phonons (e.g., in high-temperature phases)
 
-立方晶SrTiO<sub>3</sub>の例：
+Example of cubic SrTiO<sub>3</sub>:
 
 <div class="columns">
 
@@ -661,7 +663,7 @@ section {
 
 </div>
 
-イマジナリーフォノンが出る場合は一体のハミルトニアン$\hat{H}_{0}=\sum_{\boldsymbol{q},j}\hbar\omega_{\boldsymbol{q}j}\left(b_{\boldsymbol{q}j}^{\dagger}b_{\boldsymbol{q}j}+\frac{1}{2} \right)$が定義できない。→ 熱伝導も計算出来ない
+When imaginary phonons appear, a well-defined Hamiltonian $\hat{H}_{0}=\sum_{\boldsymbol{q},j}\hbar\omega_{\boldsymbol{q}j}\left(b_{\boldsymbol{q}j}^{\dagger}b_{\boldsymbol{q}j}+\frac{1}{2} \right)$ cannot be defined. → Thermal conductivity cannot be calculated either.
 
 ---
 
@@ -682,20 +684,20 @@ img[alt~="top-right"] {
 }
 </style>
 
-# 平均場によるばね定数の非調和"繰り込み"
+# Anharmonic "Renormalization" of Spring Constants by Mean Field
 
 <div class="columns">
 <div>
 
-有限温度でのeffectiveなばね定数$\tilde{\Phi}_{ij}$：
+Effective spring constant at finite temperature $\tilde{\Phi}_{ij}$:
 $$
 \tilde{\Phi}_{ij}(T) = \Phi_{ij}+ \frac{1}{4}\sum_{kl} \Phi_{ijkl}\braket{u_{k}u_{l}}_{0}
 $$
 
-- $\Phi_{ij}$, $\Phi_{ijk\ell}$はそれぞれBOエネルギー曲面の2階、4階微分。
-- $\tilde{\Phi}_{ij}$を用いて構築したDynamical matrix $\tilde{D}(\boldsymbol{q})$を対角化
-→非調和振動数 $\Omega_{q}$.
-- $\braket{u_{k}u_{l}}_{0}$は有効的な一体ハミルトニアン$\hat{\mathcal{H}}_{0}=\sum_{\boldsymbol{q},j}\hbar\Omega_{\boldsymbol{q}j}\left(a_{\boldsymbol{q}j}^{\dagger}a_{\boldsymbol{q}j}+\frac{1}{2} \right)$を使って計算するensemble平均
+- $\Phi_{ij}$, $\Phi_{ijk\ell}$ are the second and fourth derivatives of the BO energy surface, respectively.
+- Diagonalize the Dynamical matrix $\tilde{D}(\boldsymbol{q})$ constructed using $\tilde{\Phi}_{ij}$ 
+→ anharmonic frequency $\Omega_{q}$.
+- $\braket{u_{k}u_{l}}_{0}$ is calculated using the effective single-body Hamiltonian $\hat{\mathcal{H}}_{0}=\sum_{\boldsymbol{q},j}\hbar\Omega_{\boldsymbol{q}j}\left(a_{\boldsymbol{q}j}^{\dagger}a_{\boldsymbol{q}j}+\frac{1}{2} \right)$ for ensemble average.
 
 </div>
 
@@ -708,7 +710,7 @@ $$
 
 <br>
 
-$\tilde{\Phi}_{ij}$を自己無撞着に決定する必要がある。→ **自己無撞着フォノン** (Self-consistent phonon: SCP)法
+It is necessary to self-consistently determine $\tilde{\Phi}_{ij}$. → **Self-consistent phonon** (SCP) method
 
 ---
 
@@ -729,21 +731,21 @@ img[alt~="top-right"] {
 }
 </style>
 
-# 変分法による導出
+# Derivation by Variational Method
 
-#### 有効一体ハミルトニアン $\hat{\mathcal{H}}_{0}=\sum_{\boldsymbol{q},j}\hbar\Omega_{\boldsymbol{q}j}\left(a_{\boldsymbol{q}j}^{\dagger}a_{\boldsymbol{q}j}+\frac{1}{2} \right)$
+#### Effective single-body Hamiltonian $\hat{\mathcal{H}}_{0}=\sum_{\boldsymbol{q},j}\hbar\Omega_{\boldsymbol{q}j}\left(a_{\boldsymbol{q}j}^{\dagger}a_{\boldsymbol{q}j}+\frac{1}{2} \right)$
 
-#### 密度演算子 $\rho_{0} = \frac{e^{-\beta \hat{\mathcal{H}}_{0}}}{\mathrm{Tr}e^{-\beta \hat{\mathcal{H}}_{0}}}$
+#### Density operator $\rho_{0} = \frac{e^{-\beta \hat{\mathcal{H}}_{0}}}{\mathrm{Tr}e^{-\beta \hat{\mathcal{H}}_{0}}}$
 
-#### Gibbs–Bogoliubov-Feynman不等式 $F[\rho] = \tilde{F}_{0} + \braket{\hat{H}-\hat{\mathcal{H}}_{0}}_{0} \geq F$
+#### Gibbs–Bogoliubov-Feynman inequality $F[\rho] = \tilde{F}_{0} + \braket{\hat{H}-\hat{\mathcal{H}}_{0}}_{0} \geq F$
 
-- $F$はハミルトニアン$\hat{H}$に対応するExactな自由エネルギー。計算が極めて困難。
+- $F$ is the exact free energy corresponding to the Hamiltonian $\hat{H}$. The calculation is extremely difficult.
 - $\braket{\hat{H}-\hat{\mathcal{H}}_{0}}_{0}=\mathrm{Tr}[\rho_{0}(\hat{H}-\hat{\mathcal{H}}_{0})]=\mathrm{Tr}[\rho_{0}(\hat{U}_2-\hat{\mathcal{U}}_{2})]+\mathrm{Tr}(\rho_0 \hat{U}_{4})+\mathrm{Tr}(\rho_0 \hat{U}_{6})+\cdots$. 
- ここでは偶数次の非調和項のみが繰り込まれる。
+  Here, only even-order anharmonic terms are renormalized.
 
-#### 自己無撞着方程式は$\frac{\delta F[\rho]}{\delta \rho} = 0$から得られる
+#### The self-consistent equation is obtained from $\frac{\delta F[\rho]}{\delta \rho} = 0$
 
-SCP法はフォノン版ハートリーフォック法と言っても良い。
+The SCP method can be considered as a phonon version of the Hartree-Fock method.
 
 ---
 
@@ -764,27 +766,27 @@ img[alt~="top-right"] {
 }
 </style>
 
-# 第一原理計算に基づく実装
+# Implementation Based on First-Principles Calculations
 
 ### Stochastic method
 
 - `SSCHA`, `QSCAILD`, `HiPhive`, `Phonopy`
-- 実空間で$\Phi_{ij}$をアップデート。
+- Update $\Phi_{ij}$ in real space.
 - $\Phi_0$ &rarr; $\{\omega_{q}, \boldsymbol{e}_{q}\}_{0}$ &rarr; generate supercell structures at temperature $T$ &rarr; **DFT calculations** to get forces &rarr; $\Phi_1$ via fitting &rarr; $\{\omega_{q}, \boldsymbol{e}_{q}\}_{1}$ &rarr; generate supercell structures at temperature $T$ &rarr; ...
-- 平均場レベルではあるがすべての非調和効果が入る
-- 非調和IFCをあらわに計算しないで良い。
-- 計算コストが高い
+- Although at the mean-field level, all anharmonic effects are included.
+- No need to explicitly calculate the anharmonic IFC.
+- High computational cost.
 
-### Force-constantに基づく実装 `ALAMODE`
+### Force-constant Based Implementation `ALAMODE`
 
-- 逆空間で$\Phi_{ij}$をアップデート。$
+- Update $\Phi_{ij}$ in reciprocal space. $
 V_{\boldsymbol{q}ij}^{[n+1]} = \omega_{\boldsymbol{q}i}^{2}\delta_{ij}+\frac{1}{2}\sum_{\boldsymbol{q}_{1},k,\ell}F_{\boldsymbol{q}\boldsymbol{q}_{1},ijk\ell}(C^{[n]}_{\boldsymbol{q}} Q^{[n]}_{\boldsymbol{q}} C^{[n]\dagger}_{\boldsymbol{q}})_{k\ell}.
 $
 $Q_{\boldsymbol{q},ij}^{[n]}
-= \frac{\hbar\big[1+2n(\omega_{\boldsymbol{q}i}^{[n]})\big]}{2\omega_{\boldsymbol{q}i}^{[n]}}\delta_{ij}$で$C_{\boldsymbol{q}}$はユニタリー行列。
-- $\Phi_0$ &rarr; $\{\omega_{q}, \boldsymbol{e}_{q}\}_{0}$ &rarr; 4次非調和相互作用 $F_{\boldsymbol{q}\boldsymbol{q}_{1},ijk\ell}$ &rarr; $V_{\boldsymbol{q}}^{[1]}$ &rarr; $\{\omega_{q}, \boldsymbol{e}_{q}\}_{1}, C_{\boldsymbol{q}}^{[1]}$ &rarr; $V_{\boldsymbol{q}}^{[2]}$ &rarr; ...
-- 計算が効率的だが4次IFCをあらかじめ計算する必要あり
-- （現状では）Taylor展開を4次項で打ち切っている
+= \frac{\hbar\big[1+2n(\omega_{\boldsymbol{q}i}^{[n]})\big]}{2\omega_{\boldsymbol{q}i}^{[n]}}\delta_{ij}$ where $C_{\boldsymbol{q}}$ is a unitary matrix.
+- $\Phi_0$ &rarr; $\{\omega_{q}, \boldsymbol{e}_{q}\}_{0}$ &rarr; 4th-order anharmonic interaction $F_{\boldsymbol{q}\boldsymbol{q}_{1},ijk\ell}$ &rarr; $V_{\boldsymbol{q}}^{[1]}$ &rarr; $\{\omega_{q}, \boldsymbol{e}_{q}\}_{1}, C_{\boldsymbol{q}}^{[1]}$ &rarr; $V_{\boldsymbol{q}}^{[2]}$ &rarr; ...
+- Efficient computation, but requires prior calculation of 4th-order IFC.
+- (Currently) truncating the Taylor expansion at the 4th order.
 
 ---
 
@@ -805,12 +807,12 @@ img[alt~="top-right"] {
 }
 </style>
 
-# 計算例
+# Calculation Examples
 
 <div class="columns">
 <div>
 
-立方晶 CsPbBr<sub>3</sub>
+Cubic CsPbBr<sub>3</sub>
 
 ![w:150px](./assets/image-10.png)
 
@@ -818,7 +820,7 @@ img[alt~="top-right"] {
 
 <div>
 
-ソフトモード
+Soft Mode
 
 ![w:400px](./assets/image-8.png)
 
@@ -826,7 +828,7 @@ img[alt~="top-right"] {
 
 <div>
 
-高エネルギー光学モード
+High-Energy Optical Mode
 
 ![w:400px](./assets/image-9.png)
 
@@ -836,7 +838,7 @@ E. Fransson, P. Rosander, F. Eriksson, J. M. Rahm, TT, and P. Erhart, Commun. Ph
 
 </div>
 
-Stochasticな方法と`ALAMODE`の実装は互いによく一致している。
+The stochastic method and the implementation of `ALAMODE` are well aligned with each other.
 
 ---
 
@@ -845,15 +847,15 @@ Stochasticな方法と`ALAMODE`の実装は互いによく一致している。
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh; /* ビューポートの高さを100%に設定 */
-    text-align: center; /* テキストを中央揃え */
+    height: 70vh; /* Set the viewport height to 100% */
+    text-align: center; /* Center the text */
 }
 </style>
 
 <div class="centered-content">
     <div>
-        <h1>ハンズオンセッション</h1>
-        <p>ここまでで質問があれば受け付けます</p>
+        <h1>Hands-on Session</h1>
+        <p>If you have any questions so far, please feel free to ask.</p>
     </div>
 </div>
 
@@ -867,7 +869,7 @@ section {
 
 # MateriApps LIVE!
 
-0. Docker版を使っている場合
+0. If you are using the Docker version
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">curl -L -O https://sf.net/projects/materiappslive/files/docker/malive
@@ -877,7 +879,7 @@ bash ./malive remove 4.1
   <button class="copy-button">Copy</button>
 </div>
 
-1. ALAMODEの更新 (1.3.x &rarr; 1.5.0)
+1. Updating ALAMODE (1.3.x &rarr; 1.5.0)
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">curl -k -fsSL https://sf.net/projects/materiappslive/files/Debian/sources/update.sh | sudo bash
@@ -895,7 +897,7 @@ details {
 }
 </style>
 
-# ハンズオン用のファイル取得
+# Obtaining Files for the Hands-on Session
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">git clone -b CCMS2024 https://github.com/ttadano/alamode_tutorial.git
@@ -905,7 +907,7 @@ tree -L 2</code></pre>
 </div>
 
 <details open>
-<summary>treeコマンドの出力</summary>
+<summary>Output of the tree command</summary>
 
 ```bash
 .
@@ -922,11 +924,11 @@ tree -L 2</code></pre>
 
 </details>
 
-- `work`は作業ディレクトリ
-- `ref`は参照用の入力・出力ファイル置き場
-- `data`はこちらが提供するデータ置き場
+- `work` is the working directory
+- `ref` is the storage for reference input and output files
+- `data` is the data storage provided by us
 
-マニュアルページも参考にしつつ進めてください。https://alamode.readthedocs.io/en/latest/
+Please proceed while referring to the manual page. https://alamode.readthedocs.io/en/latest/
 
 ---
 
@@ -936,16 +938,16 @@ section {
 }
 </style>
 
-# Pythonライブラリのインストールと環境変数設定
+# Installing Python Libraries and Setting Environment Variables
 
-#### pipコマンドで必要なライブラリをインストール（少し時間がかかります）
+#### Install the required libraries using pip (this may take some time)
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">pip install pymatgen numpy==1.26.4</code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-SSLErrorが出る場合は以下を試して下さい。
+If you encounter an SSLError, please try the following.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">pip --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --trusted-host pypi.org install pymatgen numpy==1.26.4</code></pre>
   <button class="copy-button">Copy</button>
@@ -953,7 +955,7 @@ SSLErrorが出る場合は以下を試して下さい。
 
 <br>
 
-#### PYTHONPATHの設定
+#### Setting PYTHONPATH
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">echo "export PYTHONPATH=/usr/share/alamode/tools/" >> ~/.bashrc
@@ -971,21 +973,21 @@ section {
 
 # <span class='red-text'>Hands-on 1. </span> Force constants of Silicon
 
-#### 目的
+#### Purpose
 
-- バルクシリコンの2次IFC（調和）と3次IFC（非調和）を計算する。
-- almの基本的な使い方を取得する。
+- Calculate the 2nd IFC (harmonic) and 3rd IFC (anharmonic) of bulk silicon.
+- Acquire basic usage of alm.
 
-#### 手順
+#### Steps
 
-1. <input type="checkbox" checked>プリミティブセルを使ってDFT計算で構造最適化を行う（今回はスキップ）
-1. <input type="checkbox"> 最適化済みのプリミティブセル構造からスーパーセルを作る
-1. <input type="checkbox"> 作ったスーパーセルの情報を使い、almの入力ファイルを作る
-1. <input type="checkbox"> almをMODE=suggestで実行
-1. <input type="checkbox"> 原子変位を与えたスーパーセル構造を生成
-1. <input type="checkbox" checked> 変位構造における力を計算する（今回はスキップ）
-1. <input type="checkbox"> 学習データを単一ファイルにまとめ、almの入力ファイルを編集する
-1. <input type="checkbox"> almをMODE=optimizeで実行
+1. <input type="checkbox" checked> Perform structure optimization using DFT calculations with the primitive cell (skipped this time)
+1. <input type="checkbox"> Create a supercell from the optimized primitive cell structure
+1. <input type="checkbox"> Use the information from the created supercell to create the alm input file
+1. <input type="checkbox"> Run alm with MODE=suggest
+1. <input type="checkbox"> Generate the supercell structure with atomic displacements
+1. <input type="checkbox" checked> Calculate forces in the displaced structure (skipped this time)
+1. <input type="checkbox"> Consolidate the training data into a single file and edit the alm input file
+1. <input type="checkbox"> Run alm with MODE=optimize
 
 ---
 
@@ -995,7 +997,7 @@ section {
 }
 </style>
 
-# 1.2. スーパーセルを作る
+# 1.2. Create a Supercell
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cd 1_force_constant_silicon/work
@@ -1003,7 +1005,7 @@ cat primitive.POSCAR.vasp</code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-primitive.POSCAR.vaspはダイアモンド構造を持つシリコンのprimitive cell構造
+primitive.POSCAR.vasp is the primitive cell structure of silicon with a diamond structure.
 
 ```bash
 Silicon primitive
@@ -1018,7 +1020,7 @@ Direct
   0.2500000000000000  0.2500000000000000  0.2500000000000000
 ```
 
-3x3行列$P$をかけてスーパーセルの格子ベクトルを作る。
+Multiply the 3x3 matrix $P$ to create the lattice vectors of the supercell.
 
 $$
 (\boldsymbol{a}_{s}, \boldsymbol{b}_s, \boldsymbol{c}_s) = (\boldsymbol{a}_{p}, \boldsymbol{b}_p, \boldsymbol{c}_p) P
@@ -1037,12 +1039,12 @@ section {
 }
 </style>
 
-# 1.2. スーパーセルを作る（続き）
+# 1.2. Create a Supercell (Continued)
 
 <div class="columns">
 <div>
 
-今回はconventional cellの2x2x2を作るので、$P$行列は以下の通り。
+Since we are creating a 2x2x2 conventional cell this time, the matrix $P$ is as follows.
 $$
 P = {
   \small
@@ -1053,12 +1055,12 @@ P = {
 \end{pmatrix}}
 $$
 
-#### 具体的な変換方法
+#### Specific Transformation Methods
 
-- VESTAを利用する
-- **pymatgen**やaseを利用する←今回はpymatgenを利用
-- 自作スクリプトを作る
-- ALAMODE内で変換する（ver. 2以降で対応）
+- Use VESTA
+- Use **pymatgen** or ase ← this time we will use pymatgen
+- Create a custom script
+- Convert within ALAMODE (supported from version 2 onwards)
 
 </div>
 
@@ -1070,9 +1072,9 @@ python3 makedisp_vasp.py</code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> makedisp_vasp.pyの中を確認し、行列$P$が上の通り定義されているのを確認。
+<input type="checkbox"> Check the contents of makedisp_vasp.py and confirm that the matrix $P$ is defined as above.
 
-<input type="checkbox"> SPOSCARが出来たのを確認。
+<input type="checkbox"> Confirm that SPOSCAR has been created.
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">head SPOSCAR</code></pre>
@@ -1107,19 +1109,19 @@ section {
 }
 </style>
 
-# 1.3. almの入力ファイルを作る
+# 1.3. Create the input file for alm
 
 <div class="columns">
 
 <div>
 
-ALM0.inファイルを新規作成。
+Create a new ALM0.in file.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">vim ALM0.in</code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-emacsを使う場合は
+If using emacs
 <div class="code-block-wrapper">
   <pre><code class="language-bash">emacs -nw ALM0.in</code></pre>
   <button class="copy-button">Copy</button>
@@ -1127,17 +1129,17 @@ emacsを使う場合は
 
 <br>
 
-#### チェックリスト
+#### Checklist
 
-<input type="checkbox"> MODE = suggestとする
+<input type="checkbox"> Set MODE = suggest
 
-<input type="checkbox"> &cellの格子定数はbohr単位とする
+<input type="checkbox"> Use bohr units for the cell's lattice constants
 
 </div>
 
 <div>
 
-以下のように`&general`, `&interaction`, `&cutoff`, `&cell`, `&position`を作る。
+Create `&general`, `&interaction`, `&cutoff`, `&cell`, and `&position` as follows.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">&general
  PREFIX = si222
@@ -1178,11 +1180,11 @@ section {
 }
 </style>
 
-# 1.3. almの入力ファイルを作る（続き）
+# 1.3. Create the input file for alm (continued)
 
-`&position`フィールドにはスーパーセルに含まれる64原子の内部座標を書く必要がある。
+In the `&position` field, you need to write the internal coordinates of the 64 atoms included in the supercell.
 
-手で入力するのは面倒なので、スクリプトで追加します。
+Since it is tedious to enter manually, we will add them with a script.
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">echo "&positions" >> ALM0.in
@@ -1192,7 +1194,7 @@ echo "/" >> ALM.in
   <button class="copy-button">Copy</button>
 </div>
 
-面倒な方はrefディレクトリにあるALM0.inをコピーしてください
+If you find it cumbersome, you can copy the ALM0.in file located in the ref directory.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cp ../ref/ALM0.in .
 </code></pre>
@@ -1212,26 +1214,25 @@ section {
 }
 </style>
 
-# 1.4. almをMODE=suggestで実行
+# 1.4. Run alm with MODE=suggest
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">alm ALM0.in > ALM0.log</code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-ALM0.logには
+ALM0.log contains
 
-- 結晶構造の情報（格子定数、内部座標、対称性）
-- 原子間距離
-- 独立なIFCの数
-- IFCを決めるために考慮するべき変位パターン数
+- Information about the crystal structure (lattice constants, internal coordinates, symmetry)
+- Interatomic distances
+- Number of independent IFCs
+- Number of displacement patterns to consider for determining the IFCs
 
-などの情報が出力されている。
-また、si222.pattern_HARMONICファイルが作成される。
+and other information is output. Additionally, the si222.pattern_HARMONIC file will be created.
 
-#### チェックリスト
+#### Checklist
 
-<input type="checkbox"> Space groupが正しく認識されているか。
+<input type="checkbox"> Check if the space group is recognized correctly.
 
 ---
 
@@ -1246,16 +1247,16 @@ section {
 }
 </style>
 
-# 非調和相互作用を考慮する場合
+# Considering anharmonic interactions
 
-<input type="checkbox" /> `NORDER`を1から2に変更する
-<input type="checkbox" /> `&cutoff`フィールドに3次IFCのカットオフを追加する
+<input type="checkbox" /> Change `NORDER` from 1 to 2
+<input type="checkbox" /> Add the cutoff for the third-order IFC in the `&cutoff` field
 
 <div class="columns">
 
 <div>
 
-#### 3次項まで考慮する場合
+#### Considering up to third-order terms
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">&interaction
@@ -1271,7 +1272,7 @@ section {
 
 <div>
 
-#### 4次項まで考慮する場合
+#### Considering up to fourth-order terms
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">&interaction
@@ -1287,9 +1288,8 @@ section {
 </div>
 </div>
 
-- 今回は第2近接まで非調和相互作用を考慮する（$r_c = 7.3$ bohr）
-- `NBODY`タグを使うと多体相互作用の上限を設定できる。
-上の例では`NBODY = 2 3 3`として4体の4次相互作用を除いている。
+- In this case, we consider anharmonic interactions up to the second nearest neighbor (r_c = 7.3 bohr)
+- The `NBODY` tag can be used to set the upper limit for many-body interactions. In the example above, `NBODY = 2 3 3` excludes the four-body fourth-order interactions.
 
 ---
 
@@ -1304,16 +1304,16 @@ section {
 }
 </style>
 
-# 1.5. 原子変位を与えたスーパーセル構造を生成
+# 1.5. Generate supercell structure with atomic displacements
 
-SPOSCARの構造から、原子を0.01 Å だけ微小変位させた構造を作る。
+From the structure of SPOSCAR, create a structure with atomic displacements of 0.01 Å.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python3 -m displace --VASP SPOSCAR --mag 0.01 --prefix harm -pf si222.pattern_HARMONIC
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-非調和項の計算には少し大きめな変位にするのが良い。
+For the calculation of anharmonic terms, it is better to use a slightly larger displacement.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python3 -m displace --VASP SPOSCAR --mag 0.04 --prefix cubic -pf si222.pattern_ANHARM3
 </code></pre>
@@ -1352,13 +1352,13 @@ section {
 }
 </style>
 
-# 1.6. 変位構造における力を計算する
+# 1.6. Calculate Forces in Displacement Structures
 
-今回は時間の都合上スキップする。
+This time, we will skip it due to time constraints.
 
-VASPを用いて計算した結果がdataディレクトリにあるのでコピーしてください。
+Please copy the results calculated using VASP from the data directory.
 
-#### 調和IFC用の計算結果
+#### Results for Harmonic IFC
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cp ../data/vasprun_harmonic1.xml .
@@ -1366,7 +1366,7 @@ VASPを用いて計算した結果がdataディレクトリにあるのでコピ
   <button class="copy-button">Copy</button>
 </div>
 
-#### 3次非調和IFC用の計算結果
+#### Results for Cubic Anharmonic IFC
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cp ../data/vasprun_cubic*.xml .
@@ -1387,9 +1387,9 @@ section {
 }
 </style>
 
-# 1.8. 学習データを単一ファイルにまとめる
+# 1.8. Merge Learning Data into a Single File
 
-#### 調和項用データ
+#### Data for Harmonic Terms
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python3 -m extract --VASP SPOSCAR vasprun_harmonic1.xml > DFSET_harmonic
@@ -1397,7 +1397,7 @@ section {
   <button class="copy-button">Copy</button>
 </div>
 
-#### 3次非調和項用データ
+#### Data for 3rd-order Anharmonic Terms
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python3 -m extract --VASP SPOSCAR vasprun_cubic*.xml > DFSET_cubic
@@ -1418,13 +1418,13 @@ section {
 }
 </style>
 
-# 1.9. alm用インプットファイルを編集
+# 1.9. Edit Input Files for alm
 
 <div class="columns">
 
 <div>
 
-#### 調和項
+#### Harmonic Terms
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cp ALM0.in ALM1.in
@@ -1455,14 +1455,14 @@ ALM1.in
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> `MODE`をoptに変更
-<input type="checkbox"> `&optimize`フィールドを作成
+<input type="checkbox"> Change `MODE` to opt
+<input type="checkbox"> Create `&optimize` field
 
 </div>
 
 <div>
 
-#### 3次非調和項
+#### 3rd-order Anharmonic Term
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cp ALM0.in ALM2.in
@@ -1494,7 +1494,7 @@ ALM2.in
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> `&optimize`フィールドにFC2XMLを設定し、3次IFCフィットの時に調和項を固定する。
+<input type="checkbox"> Set FC2XML in `&optimize` field and fix harmonic terms during 3rd IFC fit.
 
 </div>
 </div>
@@ -1512,9 +1512,9 @@ section {
 }
 </style>
 
-# 1.9. almをMODE=optで実行
+# 1.9. Run alm with MODE=opt
 
-#### 調和項のフィット
+#### Fitting of Harmonic Terms
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">alm ALM1.in > ALM1.log
@@ -1522,12 +1522,12 @@ grep "Fitting error" ALM1.log</code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> フィッティングエラーは力の相対誤差。十分小さい事を確認
-<input type="checkbox"> si222.xmlが出来ている事を確認
+<input type="checkbox"> Confirm that the fitting error is the relative error of the forces. Ensure it is sufficiently small.
+<input type="checkbox"> Confirm that si222.xml has been created.
 
-- 変位の大きさが0.01 Å程度の場合、フィッティングエラーは数％以下になることが多いです。それ以上に大きな場合は、初期の構造最適化が甘いかDFT計算の数値精度が足りていない可能性があります。
+- When the displacement magnitude is around 0.01 Å, the fitting error is often below a few percent. If it is larger than that, it may indicate that the initial structure optimization is insufficient or that the numerical precision of the DFT calculation is inadequate.
 
-#### 3次非調和項のフィット
+#### Fitting of 3rd Anharmonic Term
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">alm ALM2.in > ALM2.log
@@ -1535,7 +1535,7 @@ grep "Fitting error" ALM2.log</code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> si222_cubic.xmlが出来ている事を確認
+<input type="checkbox"> Confirm that si222_cubic.xml has been created.
 
 ---
 
@@ -1544,8 +1544,8 @@ grep "Fitting error" ALM2.log</code></pre>
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh; /* ビューポートの高さを100%に設定 */
-    text-align: center; /* テキストを中央揃え */
+    height: 70vh; /* Set viewport height to 100% */
+    text-align: center; /* Center the text */
 }
 </style>
 
@@ -1565,24 +1565,24 @@ section {
 
 # <span class="red-text"> Hands-on 2. </span> Phonon and thermal conductivity of Si
 
-#### 目的
+#### Objective
 
-- バルクシリコンのフォノン計算、格子熱伝導率計算を行う
-- anphonの基本的な使い方を取得する。
+- Perform phonon calculations and lattice thermal conductivity calculations for bulk silicon.
+- Acquire basic usage of anphon.
 
-#### 手順
+#### Steps
 
-1. <input type="checkbox"> フォノン分散計算
-1. <input type="checkbox"> フォノン状態密度（phDOS）計算
-1. <input type="checkbox"> 熱力学量と平均自乗変位計算
-1. <input type="checkbox"> 格子熱伝導率計算
-1. <input type="checkbox"> 格子熱伝導率の解析
+1. <input type="checkbox"> Phonon dispersion calculation
+1. <input type="checkbox"> Phonon density of states (phDOS) calculation
+1. <input type="checkbox"> Thermodynamic quantities and mean square displacement calculation
+1. <input type="checkbox"> Lattice thermal conductivity calculation
+1. <input type="checkbox"> Analysis of lattice thermal conductivity
 
 ---
 
 <style scoped>
 section {
-    font-size: 22px;
+    font-size: 20px;
 }
 .columns {
     display: grid;
@@ -1591,9 +1591,9 @@ section {
 }
 </style>
 
-# 2.1 フォノン分散
+# 2.1 Phonon Dispersion
 
-作業ディレクトリの移動とIFCファイルのコピー
+Moving to the working directory and copying the IFC file
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cd ../../2_thermal_conductivity_silicon/
 mkdir work; cd work
@@ -1605,30 +1605,30 @@ cp ../../1_force_constant_silicon/work/si222_cubic.xml .
 <div class="columns">
 <div>
 
-phband.inを新規作成し編集
+Create and edit phband.in
 <div class="code-block-wrapper">
   <pre><code class="language-bash">vim phband.in
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-右を参考にphband.inを作成し、anphonを実行
+Create phband.in with reference to the right and run anphon
 <div class="code-block-wrapper">
   <pre><code class="language-bash">anphon phband.in > phband.log
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-結果をプロット
+Plot the results
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python3 -m plotband Si.bands --unit meV
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> anphonの&cellフィールドにはprimitive cellの格子定数を入力したか確認。almと異なるので注意。
-<input type="checkbox"> &kpointフィールドにはprimitive cellのBrillouin zoneパスを指定。
-<input type="checkbox"> フォノン分散に変な振動がないかチェック
+<input type="checkbox"> Confirm that the &cell field of anphon has the lattice constant of the primitive cell entered. Note that it is different from alm.
+<input type="checkbox"> Specify the Brillouin zone path of the primitive cell in the &kpoint field.
+<input type="checkbox"> Check for any strange vibrations in the phonon dispersion.
 
 </div>
 
@@ -1675,13 +1675,13 @@ section {
 }
 </style>
 
-# 2.2 フォノン状態密度 (phDOS)
+# 2.2 Phonon Density of States (phDOS)
 
 <div class="columns">
 
 <div>
 
-phband.inをphdos.inにコピーして編集
+Copy phband.in to phdos.in and edit
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cp phband.in phdos.in
 vim phdos.in
@@ -1689,23 +1689,23 @@ vim phdos.in
   <button class="copy-button">Copy</button>
 </div>
 
-右を参考に編集したらanphonを実行
+After editing with reference to the right, run anphon
 <div class="code-block-wrapper">
   <pre><code class="language-bash">anphon phdos.in > phdos.log
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-プロット
+Plot
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python -m plotdos Si.dos --unit meV
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> &kpointフィールドの最初の数字を1 → 2に変更し、続く行にk点サンプリングのメッシュ数を設定
+<input type="checkbox"> Change the first number in the &kpoint field from 1 to 2, and set the mesh size for k-point sampling in the following lines.
 
-<input type="checkbox"> `ISMEAR`オプションによってDOSの見え方がどう変わるか確認
+<input type="checkbox"> Check how the appearance of DOS changes with the `ISMEAR` option.
 
 </div>
 
@@ -1756,12 +1756,12 @@ section {
 }
 </style>
 
-# 2.3 熱力学量、平均自乗変位
+# 2.3 Thermodynamic Quantities, Mean Square Displacement
 
-- フォノン定積比熱 $C_V(T)$、内部エネルギー $U(T)$、エントロピー $S(T)$、自由エネルギー $F(T)$は`PREFIX.thermo`ファイルに保存されている。
+- The phonon constant volume heat capacity $C_V(T)$, internal energy $U(T)$, entropy $S(T)$, and free energy $F(T)$ are stored in the `PREFIX.thermo` file.
 
   <details>
-  <summary>クリックしてSi.thermoを表示</summary>
+  <summary>Click to display Si.thermo</summary>
 
   ```bash
   # Temperature [K], Heat capacity / kB, Entropy / kB, Internal energy [Ry], Free energy (QHA) [Ry]
@@ -1778,23 +1778,24 @@ section {
 
   </details>
 
-  興味があればgnuplotでプロットしてみてください。
+  If you are interested, please try plotting with gnuplot.
 
-- 平均自乗変位 $\left< u_{\mu}^{2}(\kappa)\right> = \frac{\hbar}{M_{\kappa}N_{q}}\sum_{\boldsymbol{q},j}\frac{1}{\omega_{\boldsymbol{q}j}} |e_{\mu}(\kappa;\boldsymbol{q}j)|^{2}
+- The mean square displacement $\left< u_{\mu}^{2}(\kappa)\right> = \frac{\hbar}{M_{\kappa}N_{q}}\sum_{\boldsymbol{q},j}\frac{1}{\omega_{\boldsymbol{q}j}} |e_{\mu}(\kappa;\boldsymbol{q}j)|^{2}
 \left(n_{\boldsymbol{q}j}+\frac{1}{2}\right)$
   
-   以下をphdos.inに追記してanphonを再実行
+   Add the following to phdos.in and rerun anphon
     <div class="code-block-wrapper">
     <pre><code class="language-bash">&analysis
      MSD = 1; DOS = 0
   /    </code></pre>
     <button class="copy-button">Copy</button>
     </div>
+
   
-  結果は`PREFIX.msd`に保存される
+  The results are saved in `PREFIX.msd`
 
   <details>
-  <summary>クリックしてSi.msdを表示</summary>
+  <summary>Click to display Si.msd</summary>
 
   ```bash
   # Mean Square Displacements at a function of temperature.
@@ -1805,14 +1806,14 @@ section {
 
   </details>
 
-<input type="checkbox"> これらの結果はISMEARに依存しない
-<input type="checkbox"> 温度範囲や刻みを変える場合は`TMIN, TMAX, DT`を利用
+<input type="checkbox"> These results are independent of ISMEAR
+<input type="checkbox"> If changing the temperature range or steps, use `TMIN, TMAX, DT`
 
 ---
 
 <style scoped>
 section {
-    font-size: 22px;
+    font-size: 20px;
 }
 .columns {
     display: grid;
@@ -1821,15 +1822,15 @@ section {
 }
 </style>
 
-# 2.4 格子熱伝導率
+# 2.4 Lattice Thermal Conductivity
 
-シリコンの格子熱伝導率をRTAに基づき計算する。計算コストを下げるため、k点メッシュは10x10x10とする。
+Calculate the lattice thermal conductivity of silicon based on RTA. To reduce computational cost, the k-point mesh is set to 10x10x10.
 
 <div class="columns">
 
 <div>
 
-phdos.inをkappa.inにコピーして編集
+Copy and edit phdos.in to kappa.in
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cp phdos.in kappa.in
 vim kappa.in
@@ -1837,7 +1838,7 @@ vim kappa.in
   <button class="copy-button">Copy</button>
 </div>
 
-右を参考に編集したらanphonを実行
+Edit based on the reference on the right and then run anphon
 <div class="code-block-wrapper">
   <pre><code class="language-bash">export OMP_NUM_THREADS=1
 mpirun anphon kappa.in > kappa.log
@@ -1845,15 +1846,15 @@ mpirun anphon kappa.in > kappa.log
   <button class="copy-button">Copy</button>
 </div>
 
-結果を確認
+Check the results
 <div class="code-block-wrapper">
   <pre><code class="language-bash">less Si_q10.kl
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> 300 Kでの熱伝導率がおよそ111 W/mKとなるか確認　（実験値は~155 W/mK）
-<input type="checkbox"> 余力があればq点メッシュを変えて結果を比較
+<input type="checkbox"> Confirm that the thermal conductivity at 300 K is approximately 111 W/mK (experimental value is ~155 W/mK)
+<input type="checkbox"> If possible, change the q-point mesh and compare the results
 
 </div>
 
@@ -1899,9 +1900,9 @@ section {
 }
 </style>
 
-# 同位体散乱効果の解析
+# Analysis of Isotope Scattering Effects
 
-同位体不純物によるフォノン散乱強度は以下の式を用いて摂動的に計算出来る。
+The phonon scattering intensity due to isotope impurities can be calculated perturbatively using the following equation.
 $$
 \begin{aligned}
 &\Gamma_{\boldsymbol{q}j}^{\mathrm{iso}}(\omega)= \frac{\pi}{4N_{q}} \omega_{\boldsymbol{q}j}^{2}\sum_{\boldsymbol{q}_{1},j_{1}}\delta(\omega-\omega_{\boldsymbol{q}_{1}j_{1}})
@@ -1913,7 +1914,7 @@ $$
 <div class="columns">
 <div>
 
-kappa.inに下記を追記
+Add the following to kappa.in
 <div class="code-block-wrapper">
   <pre><code class="language-bash">&analysis
  ISOTOPE = 2
@@ -1922,7 +1923,7 @@ kappa.inに下記を追記
   <button class="copy-button">Copy</button>
 </div>
 
-anphonを再実行。
+Re-run anphon.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cp Si_q10.kl Si_q10_pure.kl
 mpirun anphon kappa.in
@@ -1933,7 +1934,7 @@ mpirun anphon kappa.in
 
 <div>
 <br>
-<input type="checkbox"> Si_q10_pure.klとSi_q10.klをプロットして変化を確認
+<input type="checkbox"> Plot Si_q10_pure.kl and Si_q10.kl to check the changes
 </div>
 <div>
 
@@ -1950,12 +1951,12 @@ section {
 }
 </style>
 
-# 粒界散乱の現象論的な取込み
+# Phenomenological Incorporation of Grain Boundary Scattering
 
-実材料では粒界でのフォノン散乱効果が無視できない。この効果は現象論的に考慮する。
-散乱強度 　$\tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1} = \frac{2|\boldsymbol{v}_{\boldsymbol{q}j}|}{L}$：ここで$L$は粒径サイズ
+In real materials, the phonon scattering effect at grain boundaries cannot be ignored. This effect is considered phenomenologically.
+Scattering intensity 　$\tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1} = \frac{2|\boldsymbol{v}_{\boldsymbol{q}j}|}{L}$: where $L$ is the grain size
 
-#### 3-フォノン散乱 + 粒界散乱 $\tau_{\boldsymbol{q}j}^{-1} = \tau_{\boldsymbol{q}j,\mathrm{anh}}^{-1} + \tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1}$
+#### 3-Phonon Scattering + Grain Boundary Scattering $\tau_{\boldsymbol{q}j}^{-1} = \tau_{\boldsymbol{q}j,\mathrm{anh}}^{-1} + \tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1}$
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python -m analyze_phonons --calc kappa_boundary --size 1.0e+5 Si_q10.result > Si_boundary.kl
@@ -1963,7 +1964,7 @@ section {
   <button class="copy-button">Copy</button>
 </div>
 
-#### 3-フォノン散乱 + 同位体散乱 + 粒界散乱 $\tau_{\boldsymbol{q}j}^{-1} = \tau_{\boldsymbol{q}j,\mathrm{anh}}^{-1} + \tau_{\boldsymbol{q}j,\mathrm{ph-iso}}^{-1}+ \tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1}$
+#### 3-Phonon Scattering + Isotope Scattering + Grain Boundary Scattering $\tau_{\boldsymbol{q}j}^{-1} = \tau_{\boldsymbol{q}j,\mathrm{anh}}^{-1} + \tau_{\boldsymbol{q}j,\mathrm{ph-iso}}^{-1}+ \tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1}$
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python -m analyze_phonons --calc kappa_boundary --isotope Si.self_isotpe --size 1.0e+5 Si_q10.result > Si_iso_boundary.kl
@@ -1971,9 +1972,9 @@ section {
   <button class="copy-button">Copy</button>
 </div>
 
-- `--size`で長さ$L$を指定（単位はnm）。上の例では$L = 100 \; \mu$mとしている。
+- Specify the length $L$ with `--size` (unit is nm). In the above example, $L = 100 \; \mu$m is used.
 
-<input type="checkbox"> Si_q10_pure.kl, Si_boundary.kl, Si_iso_boundary.klをプロットして比較
+<input type="checkbox"> Plot and compare Si_q10_pure.kl, Si_boundary.kl, Si_iso_boundary.kl
 
 ---
 
@@ -2000,14 +2001,14 @@ img[alt~="right-bottom"] {
 }
 </style>
 
-# 熱伝導のスペクトル分解
+# Spectral Decomposition of Thermal Conductivity
 
-熱伝導率の絶対値を予測するだけでなく、どのフォノンが熱伝導への寄与が大きいか解析することが出来る。
+Not only can we predict the absolute value of thermal conductivity, but we can also analyze which phonons contribute significantly to thermal conductivity.
 
 <div class="columns">
 <div>
 
-#### フォノン振動数について分解
+#### Decomposition by Phonon Frequency
 
 $$
 \kappa_{\mathrm{ph}}^{\mu\mu}(\omega) = \frac{1}{\Omega N_{q}}\sum_{\boldsymbol{q},j}c_{\boldsymbol{q}j}v_{\boldsymbol{q}j}^{\mu}v_{\boldsymbol{q}j}^{\mu}\tau_{\boldsymbol{q}j} \delta(\omega-\omega_{\boldsymbol{q}j})
@@ -2018,13 +2019,13 @@ $$
 
 <div>
 
-#### フォノン平均自由行程について分解
+#### Decomposition by Phonon Mean Free Path
 
 $$
 \kappa_{\mathrm{ph,accum}}^{\mu\mu}(L) = \frac{1}{\Omega N_{q}} \sum_{\boldsymbol{q},j}c_{\boldsymbol{q}j}v_{\boldsymbol{q}j}^{\mu}v_{\boldsymbol{q}j}^{\mu}\tau_{\boldsymbol{q}j}\Theta (L-|\boldsymbol{v}_{\boldsymbol{q}j}|\tau_{\boldsymbol{q}j})
 $$
 
-- $\Theta(x)$はHevisideのstep function
+- $\Theta(x)$ is the Heaviside step function
 
 ![right-bottom](./assets/image-13.png)
 
@@ -2039,14 +2040,14 @@ section {
 }
 </style>
 
-# 熱伝導のスペクトル分解
+# Spectral Decomposition of Thermal Conductivity
 
 <div class="columns">
 <div>
 
-#### フォノン振動数について分解
+#### Decomposition by Phonon Frequency
 
-kappa.inに`DELTA_E`と`KAPPA_SPEC`を追加して再計算
+Add `DELTA_E` and `KAPPA_SPEC` to kappa.in and recalculate
 <div class="code-block-wrapper">
   <pre><code class="language-bash">&general
  PREFIX = Si_q10
@@ -2065,7 +2066,7 @@ kappa.inに`DELTA_E`と`KAPPA_SPEC`を追加して再計算
   <button class="copy-button">Copy</button>
 </div>
 
-Si_q10.kl_specをプロット (コマンドが続くのでスクロールしてください)
+Plot Si_q10.kl_spec (scroll down as the command continues)
 <div class="code-block-wrapper">
   <pre><code class="language-bash">gnuplot> plot "< awk '{if ($1 == 300) print $2, $3}' Si_q10.kl_spec" usi 1:2 w lp
 </code></pre>
@@ -2076,16 +2077,16 @@ Si_q10.kl_specをプロット (コマンドが続くのでスクロールして�
 
 <div>
 
-#### フォノン平均自由行程について分解
+#### Decomposition by Phonon Mean Free Path
 
-analyze_phononsに`--length`オプションを追加。温度は`--temp`で指定
+Add the `--length` option to analyze_phonons. Specify the temperature with `--temp`
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python -m analyze_phonons --calc cumulative --temp 300 --length 10000:1 Si.result > Si.kl_cumulative
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-Si.kl_cumulativeをプロット
+Plot Si.kl_cumulative
 <div class="code-block-wrapper">
   <pre><code class="language-bash">gnuplot> plot "Si.kl_cumulative" usi 1:2 w lp
 gnuplot> set logscale x
@@ -2103,6 +2104,11 @@ gnuplot> replot
 section {
     font-size: 18px;
 }
+.columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Adjust the fractions to set different widths */
+    gap: 2rem;
+}
 img[alt~="left-bottom"] {
   position: relative;
   bottom: 0px;
@@ -2117,7 +2123,7 @@ img[alt~="right-bottom"] {
 }
 </style>
 
-# フォノンの寿命、平均自由行程
+# Phonon Lifetime and Mean Free Path
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python -m analyze_phonons --calc tau --temp 300 Si_q10.result > tau_300K.dat
@@ -2126,12 +2132,13 @@ head tau_300K.dat
   <button class="copy-button">Copy</button>
 </div>
 
+
 <div class="columns">
 <div>
 
-#### フォノン寿命
+#### Phonon Lifetime
 
-3列目と4列目のデータでプロット
+Plot using data from the 3rd and 4th columns
 
 ![left-bottom](./assets/image-14.png)
 
@@ -2139,9 +2146,9 @@ head tau_300K.dat
 
 <div>
 
-#### フォノンの平均自由行程
+#### Mean Free Path of Phonons
 
-3列目と6列目のデータでプロット
+Plot using data from the 3rd and 6th columns
 
 ![right-bottom](./assets/image-15.png)
 
@@ -2156,19 +2163,19 @@ section {
 }
 </style>
 
-# <span class="red-text"> Hands-on 3. </span> SrTiO<sub>3</sub>の自己無撞着フォノン計算
+# <span class="red-text"> Hands-on 3. </span> Self-consistent Phonon Calculation of SrTiO<sub>3</sub>
 
-#### 目的
+#### Objective
 
-- 立方晶SrTiO<sub>3</sub>の有限温度フォノン計算を行う
-- 自己無撞着フォノン計算の基礎を取得する
+- Perform finite temperature phonon calculations for cubic SrTiO<sub>3</sub>
+- Acquire the basics of self-consistent phonon calculations
 
-#### 手順
+#### Procedure
 
-1. <input type="checkbox" checked> 調和・非調和IFCの第一原理計算 (今回はひとまずスキップ)
-1. <input type="checkbox"> 調和近似に基づくフォノン計算
-1. <input type="checkbox"> 自己無撞着フォノン(SCP)法によるフォノン計算
-1. <input type="checkbox"> SCPの結果を用いた熱伝導計算
+1. <input type="checkbox" checked> First-principles calculation of harmonic and anharmonic IFCs (skipped for now)
+1. <input type="checkbox"> Phonon calculation based on harmonic approximation
+1. <input type="checkbox"> Phonon calculation using self-consistent phonon (SCP) method
+1. <input type="checkbox"> Thermal conductivity calculation using SCP results
 
 ---
 
@@ -2178,19 +2185,19 @@ section {
 }
 </style>
 
-# 提供するファイル
+# Provided Files
 
-今回提供するデータは以下の条件で計算したもの。
+The data provided this time was calculated under the following conditions.
 
-- VASPコードを利用、PBEsol汎関数、ENCUT=550 eV
-- 2x2x2スーパーセル (40原子)
-- 元論文はT. Tadano and S. Tsuneyuki, Phys. Rev. B 92, 054301 (2015); J. Phys. Soc. Jpn. 87, 041015 (2018).
+- Using VASP code, PBEsol functional, ENCUT=550 eV
+- 2x2x2 supercell (40 atoms)
+- Original papers are T. Tadano and S. Tsuneyuki, Phys. Rev. B 92, 054301 (2015); J. Phys. Soc. Jpn. 87, 041015 (2018).
 
-提供するデータは下記の通り
+The provided data is as follows:
 
-- `data/DFSET_harmonic`: 調和IFC用の学習データ
-- `data/DFSET_AIMD+random`: 非調和IFC用の学習データ。今回は使わない予定。
-- `ref/STO_anharm.xml.bz2`: 上の学習データを使って計算した非調和IFC。LASSOを使って推定した。今回はこちらをコピーして進める。
+- `data/DFSET_harmonic`: Training data for harmonic IFC
+- `data/DFSET_AIMD+random`: Training data for anharmonic IFC. This will not be used this time.
+- `ref/STO_anharm.xml.bz2`: Anharmonic IFC calculated using the above training data. Estimated using LASSO. We will copy this to proceed.
 
 ---
 
@@ -2211,13 +2218,14 @@ img[alt~="right-center"] {
 }
 </style>
 
-# 調和IFC・調和フォノン計算
+# Harmonic IFC and Harmonic Phonon Calculation
 
 <div class="columns">
 
 <div>
 
-ディレクトリ移動、ファイルコピー
+
+Directory Navigation and File Copying
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cd ../../3_self_consistent_phonon_STO
 mkdir work
@@ -2228,9 +2236,9 @@ cp ../ref/phband.in .
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> ALM1.inを開き、DFSET=../data/DFSET_harmonicとなっていること確認
+<input type="checkbox"> Open ALM1.in and confirm that DFSET=../data/DFSET_harmonic is set.
 
-almとanphonの実行
+Running alm and anphon
 <div class="code-block-wrapper">
   <pre><code class="language-bash">alm ALM1.in > ALM1.log
 anphon phband.in > phband.log
@@ -2238,7 +2246,7 @@ anphon phband.in > phband.log
   <button class="copy-button">Copy</button>
 </div>
 
-結果をプロット
+Plotting the Results
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python3 -m plotband STO222.bands --unit meV
 </code></pre>
@@ -2251,7 +2259,7 @@ anphon phband.in > phband.log
 
 ![right-center](./assets/image-16.png)
 
-<input type="checkbox"> 不安定モードが存在するのを確認。
+<input type="checkbox"> Confirm that unstable modes exist.
 
 </div>
 
@@ -2275,15 +2283,15 @@ img[alt~="right-center"] {
 }
 </style>
 
-# LO-TO splitting
+# LO-TO Splitting
 
-SrTiO$_3$のような極性物質では長距離相互作用によって、Brillouin zoneのΓ点付近で縦波光学フォノンと横波光学フォノンがsplitする。
+In polar materials like SrTiO$_3$, long-range interactions cause longitudinal optical phonons and transverse optical phonons to split near the Γ point of the Brillouin zone.
 
 <div class="columns">
 
 <div>
 
-1\. 誘電テンソルとBorn有効電荷をVASPの計算結果から取得する。
+1\. Obtain the dielectric tensor and Born effective charges from the VASP calculation results.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python3 -m extract --VASP ../data/POSCAR --get born ../data/vasprun_epsilon.xml > BORN
 cat BORN
@@ -2291,10 +2299,10 @@ cat BORN
   <button class="copy-button">Copy</button>
 </div>
 
-BORNファイルの最初の3行に$\epsilon_{\infty}$、続けて各原子のBorn有効電荷を書く
+Write $\epsilon_{\infty}$ in the first three lines of the BORN file, followed by the Born effective charges for each atom.
 
 <details class='small-font'>
-  <summary>クリックしてBORNを表示</summary>
+  <summary>Click to display BORN</summary>
 
   ```bash
       6.35138992       0.00000000      -0.00000000
@@ -2319,7 +2327,7 @@ BORNファイルの最初の3行に$\epsilon_{\infty}$、続けて各原子のBo
 
 </details>
 
-2\. phband.inを編集
+2\. Edit phband.in
 <div class="code-block-wrapper">
   <pre><code class="language-bash">&general
  PREFIX = STO222_NA
@@ -2333,7 +2341,7 @@ BORNファイルの最初の3行に$\epsilon_{\infty}$、続けて各原子のBo
 
 <div>
 
-3\. anphonを再度実行し、フォノンバンドの変化を確認する
+3\. Run anphon again and check the changes in the phonon bands.
 
 ![right-center](./assets/image-17.png)
 
@@ -2362,7 +2370,7 @@ img[alt~="right-center"] {
 }
 </style>
 
-# 非調和IFCファイルのコピー
+# Anharmonic IFC File Copy
 
 <br>
 
@@ -2396,13 +2404,13 @@ img[alt~="right-center"] {
 }
 </style>
 
-# 自己無撞着フォノン計算
+# Self-Consistent Phonon Calculation
 
 <div class="columns">
 
 <div>
 
-phband.inを元にSCP計算用のインプットを作成
+Create input for SCP calculation based on phband.in
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">cp phband.in scph.in
@@ -2424,32 +2432,32 @@ scph.in
 &scph
  SELF_OFFDIAG = 0
  MAXITER = 500
- MIXALPHA = 0.2
- KMESH_INTERPOLATE = 2 2 2
- KMESH_SCPH = 2 2 2
+ MIXALPHA = 0.2
+ KMESH_INTERPOLATE = 2 2 2
+ KMESH_SCPH = 2 2 2
 /
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> MODE = SCPHに変更
-<input type="checkbox"> FCSXMLをSTO_anharm.xmlに変更
-<input type="checkbox"> &scphフィールドを追加
+<input type="checkbox"> Change MODE to SCPH
+<input type="checkbox"> Change FCSXML to STO_anharm.xml
+<input type="checkbox"> Add &scph field
 </div>
 
 <div>
 
 - `SELF_OFFDIAG`
 
-  SCPH計算で考慮する自己エネルギー（4次非調和性に起因するloop diagram）で非対角成分を考慮するオプション。SELF_OFFDIAG = 1にすると非対角成分が考慮されるため、より高い精度で計算出来るが、コストも高い。
+  An option to consider the off-diagonal components of the self-energy (due to 4th-order anharmonicity) in the SCPH calculation. Setting SELF_OFFDIAG = 1 allows for the consideration of off-diagonal components, enabling calculations with higher accuracy, but at a higher cost.
 
 - `KMESH_INTERPOLATE`
 
-  フォノン振動数の自己無撞着方程式を解く際に使うk点メッシュ。<span class="red-text">調和IFCを決定したスーパーセルとcommensurateなk点にする必要がある。</span>今の場合、調和・非調和IFCともに2x2x2スーパーセルを使っているので、KMESH_INTERPOLATEは2 2 2となる。(KMESH_INTERPOLATE = 1 1 1でも良いが、その場合R点のソフトフォノンが安定化しない。)
+  The k-point mesh used when solving the self-consistent phonon equations. <span class="red-text">It is necessary to use a supercell that determines the harmonic IFC and commensurate k-points.</span> In this case, both harmonic and anharmonic IFCs use a 2x2x2 supercell, so KMESH_INTERPOLATE is set to 2 2 2. (KMESH_INTERPOLATE = 1 1 1 is also acceptable, but in that case, the soft phonon at the R point will not be stabilized.)
 
 - `KMESH_SCPH`
 
-  フォノン−フォノン相互作用を計算するk点メッシュ。KMESH_INTERPOLATEの倍数であれば、数字を大きく出来る。
+  The k-point mesh used to calculate phonon-phonon interactions. It can be increased as long as it is a multiple of KMESH_INTERPOLATE.
 
 </div>
 </div>
@@ -2458,7 +2466,7 @@ scph.in
 
 <style scoped>
 section {
-    font-size: 21px;
+    font-size: 20px;
 }
 .columns {
     display: grid;
@@ -2476,9 +2484,9 @@ img[alt~="right-center"] {
 }
 </style>
 
-# SCPH計算の実行
+# Running SCPH Calculations
 
-- 今回はpure OpenMP並列で計算
+- This time, calculations are performed using pure OpenMP parallelism.
 
   <div class="code-block-wrapper">
     <pre><code class="language-bash">export OMP_NUM_THREADS=
@@ -2487,9 +2495,9 @@ img[alt~="right-center"] {
     <button class="copy-button">Copy</button>
   </div>
 
-  計算時間は数分程度。MateriApps LIVE!で計算する場合は、仮想環境のスペックに依存する。
+  The calculation time is on the order of a few minutes. When calculating on MateriApps LIVE!, it depends on the specifications of the virtual environment.
 
-- SCPH計算が収束したかチェック
+- Check if the SCPH calculation has converged.
   <div class="code-block-wrapper">
     <pre><code class="language-bash">grep "conv" scph.log
   </code></pre>
@@ -2497,7 +2505,7 @@ img[alt~="right-center"] {
   </div>
 
   <details class='small-font'>
-    <summary>クリックして出力結果を表示</summary>
+    <summary>Click to display the output result</summary>
 
     ```bash
     Temp = 1.000000e+03 : convergence achieved in    58 iterations.
@@ -2527,39 +2535,38 @@ img[alt~="right-center"] {
 
 #### Tips
 
-- 温度刻み`DT`を小さくしたりmixing parameter`MIXALPHA`を小さくすると、低温での収束性が改善することが多い
-- SCPH計算が収束した場合、必ず振動数はpositiveになる。
-- SCPH計算が収束しなかった場合でも、計算結果はファイルに出力される。
-収束していない場合、その温度で計算した物理量が信頼できないので注意。
+- Reducing the temperature step `DT` or the mixing parameter `MIXALPHA` often improves convergence at low temperatures.
+- If the SCPH calculation converges, the frequency will always be positive.
+- Even if the SCPH calculation does not converge, the results will still be output to a file. If it has not converged, be cautious as the physical quantities calculated at that temperature are unreliable.
 
 ---
 
 <style scoped>
 section {
-    font-size: 18px;
+    font-size: 17px;
 }
 .small-font {
   font-size: 16px;
 }
-img[alt~="left-bottom"] {
+img[alt~="right-center"] {
   position: relative;
   bottom: 1px;
   left: 100px;
-  width: 300px;
+  width: 400px;
 }
 </style>
 
-# 計算結果の解析
+# Analysis of Calculation Results
 
 <div class="columns">
 
 <div>
 
-#### フォノン分散
+#### Phonon Dispersion
 
-scph.inの&kpointフィールドにBrilloun zoneパスを入力した場合、`PREFIX.scph_bands`ファイルが生成される。
+When the Brillouin zone path is entered in the &kpoint field of scph.in, the `PREFIX.scph_bands` file is generated.
 
-プロットしてみる
+Let's plot it.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">gnuplot
 gnuplot> set terminal qt font “Helvetica,20”
@@ -2571,15 +2578,15 @@ gnuplot> replot for [col=2:16] “STO222_NA2.bands” usi 1:col w l lt 2
   <button class="copy-button">Copy</button>
 </div>
 
-![left-bottom](./assets/image-18.png)
+![w:350](./assets/image-18.png)
 
 </div>
 
 <div>
 
-#### フォノンDOS, 自由エネルギー
+#### Phonon DOS, Free Energy
 
-scph.inの&kpointフィールドを
+Change the &kpoint field in scph.in to
 ```bash
 &kpoint
   2
@@ -2587,11 +2594,11 @@ scph.inの&kpointフィールドを
 /
 ```
 
-に変更し、anphonを再実行。すると`PREFIX.scph_dos`, `PREFIX.scph_thermo`ファイルが出来る。
+and rerun anphon. This will create the `PREFIX.scph_dos` and `PREFIX.scph_thermo` files.
 
-- anphon実行時に`PREFIX.scph_dymat`ファイルが存在する場合、restartモードが有効になる。もしscratchから計算したい場合は`RESTART_SCPH = 0`を追加する。
+- If the `PREFIX.scph_dymat` file exists during the execution of anphon, restart mode will be enabled. If you want to calculate from scratch, add `RESTART_SCPH = 0`.
 
-DOSをプロット
+Plotting the DOS.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">gnuplot
 gnuplot> plot “STO_scph2-2.scph_dos” usi 1:4 w l ti "100 K"
@@ -2625,9 +2632,9 @@ img[alt~="right-center"] {
 }
 </style>
 
-# SCPH計算による自由エネルギー
+# Free Energy from SCPH Calculation
 
-フォノンの自由エネルギーは`PREFIX.scph_thermo`ファイルに格納されている。
+The free energy of phonons is stored in the `PREFIX.scph_thermo` file.
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">head STO_scph2-2.scph_thermo  
@@ -2654,13 +2661,13 @@ F^{\mathrm{SCP}} = \frac{1}{N_{q}}\sum_{\boldsymbol{q},j}\left[ \frac{\hbar\Omeg
  \times \frac{\hbar [1 + 2n_{\boldsymbol{q}j} ]}{2\Omega_{\boldsymbol{q}j}}
 $$
 
-この式の第1項が"QHA term"、第2項が"SCPH correction"に対応する。この2つを足したものがSCPHにおける自由エネルギー。
+The first term of this equation corresponds to the "QHA term," and the second term corresponds to the "SCPH correction." The sum of these two gives the free energy in SCPH.
 
 ---
 
 <style scoped>
 section {
-    font-size: 20px;
+    font-size: 18px;
 }
 .columns {
     display: grid;
@@ -2678,38 +2685,40 @@ img[alt~="right-center"] {
 }
 </style>
 
-# SCPHの結果を用いた熱伝導計算
+# Thermal Conductivity Calculation Using SCPH Results
 
 <div class='columns'>
 
 <div>
 
-1. `dfc2`コマンドを使い、非調和効果が繰り込まれた2次IFCを計算する。
+1. Use the `dfc2` command to calculate the second-order IFC with anharmonic effects included.
 
     <div class="code-block-wrapper">
       <pre><code class="language-bash">dfc2 STO222.xml STO222_scph_300K.xml STO_scph2-2.scph_dfc2 300</code></pre>
       <button class="copy-button">Copy</button>
     </div>
 
-    - `STO222.xml`: オリジナルの2次IFC
-    - `STO222_scph_300K.xml`: 新たに作るIFCのファイル名
-    - `STO222_scph2-2.scph_dfc2`: SCPH計算から得られたファイル。
+    - `STO222.xml`: Original second-order IFC
+    - `STO222_scph_300K.xml`: Filename for the newly created IFC
+    - `STO222_scph2-2.scph_dfc2`: File obtained from the SCPH calculation.
 
-2. kappa.inを作る
+2. Create kappa.in
     <div class="code-block-wrapper">
       <pre><code class="language-bash">cp scph.in kappa.in
    vim kappa.in</code></pre>
       <button class="copy-button">Copy</button>
     </div>
 
-    右を参考にkappa.inを編集する
+Edit kappa.in referring to the right
 
-3. anphonを実行
+3. Run anphon
     <div class="code-block-wrapper">
       <pre><code class="language-bash">export OMP_NUM_THREADS=1
    mpirun anphon kappa.in > kappa_300K.log</code></pre>
       <button class="copy-button">Copy</button>
     </div>
+
+
 </div>
 
 <div>
@@ -2736,7 +2745,9 @@ img[alt~="right-center"] {
   </code></pre>
   <button class="copy-button">Copy</button>
 </div>
-      <input type="checkbox"> STO_scph_300K.klに300 Kでの熱伝導率が出力されているか確認
+
+  <input type="checkbox"> Check if the thermal conductivity at 300 K is output in STO_scph_300K.kl
+
 </div>
 </div>
 
@@ -2757,15 +2768,15 @@ img[alt~="right-center"] {
 }
 </style>
 
-# 熱伝導の温度依存性
+# Temperature Dependence of Thermal Conductivity
 
-SCPHを用いて熱伝導率の温度依存性を計算するには、前ページの手続きをさまざまな温度で繰り返し実行し、結果を単一ファイルにまとめれば良い。
+To calculate the temperature dependence of thermal conductivity using SCPH, you can repeat the procedure from the previous page at various temperatures and compile the results into a single file.
 
 <div class="columns">
 
 <div>
 
-1. 繰り返し実行用のスクリプトをコピーし、編集
+1. Copy and edit the script for repeated execution
 
     <div class="code-block-wrapper">
       <pre><code class="language-bash">cp ../ref/autocalc.sh .
@@ -2773,13 +2784,13 @@ SCPHを用いて熱伝導率の温度依存性を計算するには、前ペー�
       <button class="copy-button">Copy</button>
     </div>
 
-2. スクリプトを実行
+2. Execute the script
     <div class="code-block-wrapper">
       <pre><code class="language-bash">bash ./autocalc.sh &</code></pre>
       <button class="copy-button">Copy</button>
     </div>
 
-3. 結果をプロット
+3. Plot the results
 
     <div class="code-block-wrapper">
       <pre><code class="language-bash">gnuplot
@@ -2842,18 +2853,18 @@ section {
 }
 </style>
 
-# <span class="red-text"> Extra hands-on. </span> 圧縮センシングを用いた非調和IFC計算
+# <span class="red-text"> Extra hands-on. </span> Anharmonic IFC calculation using compressed sensing
 
-#### 時間が余った方向け
+#### For Those with Extra Time
 
-#### 目的
+#### Purpose
 
-- 立方晶SrTiO<sub>3</sub>の非調和IFCを圧縮センシングで推定する
+- Estimate the anharmonic IFC of cubic SrTiO<sub>3</sub> using compressed sensing.
 
-#### 手順
+#### Procedure
 
-1. <input type="checkbox"> 圧縮センシングでCross-validationを行い、ペナルティ項$\alpha$をきめる
-1. <input type="checkbox"> 決めた$\alpha$でパラメータを推定し、結果をXMLファイルに出力する。
+1. <input type="checkbox"> Perform cross-validation with compressed sensing to determine the penalty term $\alpha$.
+1. <input type="checkbox"> Estimate parameters with the determined $\alpha$ and output the results to an XML file.
 
 ---
 
@@ -2871,13 +2882,12 @@ $$
 \boldsymbol{\Phi}_{\mathrm{enet}} = \mathop{\rm argmin}\limits_{\boldsymbol{\Phi}} \frac{1}{2N_{d}}   \|\mathbb{A} \boldsymbol{\Phi} - \boldsymbol{\mathscr{F}}_{\mathrm{DFT}}\|^{2}_{2} + \alpha \beta \| \boldsymbol{\Phi}  \|_{1} + \frac{1}{2} \alpha (1-\beta) \| \boldsymbol{\Phi}  \|_{2}^{2}
 $$
 
-$\beta=1$とするとLASSOになる
+Setting $\beta=1$ gives LASSO:
 $$
 \boldsymbol{\Phi}_{\mathrm{lasso}} = \mathop{\rm argmin}\limits_{\boldsymbol{\Phi}} \frac{1}{2N_{d}}   \|\mathbb{A} \boldsymbol{\Phi} - \boldsymbol{\mathscr{F}}_{\mathrm{DFT}}\|^{2}_{2} + \alpha \| \boldsymbol{\Phi}  \|_{1}
 $$
 
-最適なペナルティ項$\alpha$の大きさはモデルや学習データに依存するので、毎回決め直す。
-今回はCross-validationによって$\alpha_{\mathrm{opt}}$をきめる。
+The optimal size of the penalty term $\alpha$ depends on the model and training data, so it must be determined each time. This time, we will determine $\alpha_{\mathrm{opt}}$ through cross-validation.
 
 ---
 
@@ -2889,17 +2899,17 @@ section {
 
 # Cross-Validation (CV)
 
-- 学習データを$n$個のsubsetに分割し、そのうち$n-1$個をtrainingに使い、残りの1 subsetを使ってvalidation errorを評価する。これをtraining, validationの組み合わせを変えて$n$回繰り返し、validation errorの平均値を求める。
+- Split the training data into $n$ subsets, using $n-1$ of them for training and the remaining 1 subset to evaluate the validation error. Repeat this process $n$ times with different combinations of training and validation, and calculate the average validation error.
 
-- この作業を色々な$\alpha$で実行し、validation errorの平均値が最小になる$\alpha$を$\alpha_{\mathrm{opt}}$とする。
+- Perform this task with various $\alpha$ values, and take the $\alpha$ that minimizes the average validation error as $\alpha_{\mathrm{opt}}$.
 
-- $n$分割して行うCVを$n$-fold CVと呼ぶ
+- The CV performed with $n$ splits is called $n$-fold CV.
 
-#### 今回の計算条件
+#### Calculation Conditions for This Time
 
-- 学習データは`../data/DFSET_AIMD+random`
-- 学習データ数（構造数）は40
-- 4-fold CVを使う
+- Training data is `../data/DFSET_AIMD+random`
+- Number of training data (number of structures) is 40
+- Use 4-fold CV
 
 ---
 <style scoped>
@@ -2908,21 +2918,21 @@ section {
 }
 </style>
 
-# CVの実行
+# Executing CV
 
 <div class="columns">
 
 <div>
 
-1. 入力ファイルをコピー
+1. Copy the input file
     <div class="code-block-wrapper">
       <pre><code class="language-bash">cp ../ref/CV.in .</code></pre>
       <button class="copy-button">Copy</button>
     </div>
 
-    <input type="checkbox"> 中身を確認し、右のようになっていることを確認
+    <input type="checkbox"> Check the contents and confirm that it looks like the one on the right.
 
-2. almを実行 (5~10分程度かかる)
+2. Run alm (takes about 5-10 minutes)
     <div class="code-block-wrapper">
       <pre><code class="language-bash">alm CV.in > CV.log &
    tail -f CV.log</code></pre>
@@ -2932,7 +2942,7 @@ section {
 </div>
 
 <div>
-CV.inで重要な箇所
+Important sections in CV.in
     <div class="code-block-wrapper">
       <pre><code class="language-bash">&interaction
  NORDER = 5
@@ -2954,7 +2964,7 @@ CV.inで重要な箇所
 </div>
 </div>
 
-3. CV scoreを確認
+3. Check the CV score
     <div class="code-block-wrapper">
       <pre><code class="language-bash">gnuplot>
    gnuplot> plot "STO_anharm.cvscore" u 1:2:3 w yerr ti "training"
@@ -2962,7 +2972,7 @@ CV.inで重要な箇所
       <button class="copy-button">Copy</button>
     </div>
   
-   <input type="checkbox"> $\alpha_{\mathrm{opt}}$ の値を確認
+   <input type="checkbox"> Check the value of $\alpha_{\mathrm{opt}}$
 
 ---
 <style scoped>
@@ -2971,32 +2981,32 @@ section {
 }
 </style>
 
-# $\alpha=\alpha_{\mathrm{opt}}$でのIFCの推定
+# Estimation of IFC at $\alpha=\alpha_{\mathrm{opt}}$
 
 <div class="columns">
 
 <div>
 
-1. opt.inを作成
+1. Create opt.in
     <div class="code-block-wrapper">
       <pre><code class="language-bash">cp CV.in opt.in
    vim opt.in</code></pre>
       <button class="copy-button">Copy</button>
     </div>
 
-2. 右のように編集したらalmを実行
+2. Run alm after editing as shown on the right
     <div class="code-block-wrapper">
       <pre><code class="language-bash">alm opt.in > opt.log</code></pre>
       <button class="copy-button">Copy</button>
     </div>
 
-<input type="checkbox">　STO_anharm.xmlが作成されている事を確認
+<input type="checkbox"> Confirm that STO_anharm.xml has been created
 
 </div>
 
 <div>
 
-opt.inの変更箇所
+Changes in opt.in
     <div class="code-block-wrapper">
       <pre><code class="language-bash">&optimize
       　LMODEL = enet
@@ -3004,7 +3014,7 @@ opt.inの変更箇所
       　FC2XML = STO222.xml
       　CV = 0　# No Cross-validation
       　L1_RATIO = 1.0 # LASSO
-      　L1_ALPHA = xxxxx # ここに推定したalphaを入れる
+      　L1_ALPHA = xxxxx # Enter the estimated alpha here
 /</code></pre>
       <button class="copy-button">Copy</button>
 </div>
@@ -3020,35 +3030,34 @@ section {
 }
 </style>
 
-# 今回触れなかったアドバンスドトピック
+# Advanced topics not covered this time
 
-- SCP法に基づく有限温度での構造最適化計算 (`RELAX_STR > 0`)
+- Structure optimization calculations at finite temperature based on the SCP method (`RELAX_STR > 0`)
 
-  - https://alamode.readthedocs.io/en/latest/tutorial_pages/bto_scph_relax.html
-  にチュートリアルがあります
+  - There is a tutorial at https://alamode.readthedocs.io/en/latest/tutorial_pages/bto_scph_relax.html
 
-- SCPにBubble diagram補正を考慮してフォノンを計算する方法 (`BUBBLE > 0`)
+- Method for calculating phonons considering Bubble diagram correction in SCP (`BUBBLE > 0`)
 
-- ALMのPython API https://github.com/ttadano/ALM
-  - PythonでALMを使うことができるAPIがあります。
+- ALM Python API https://github.com/ttadano/ALM
+  - There is an API that allows you to use ALM in Python.
 
 ---
 
-# 今後の展望
+# Future Prospects
 
-#### ALAMODE ver.2でのアップデート
+#### Updates in ALAMODE ver.2
 
-次期のメジャーリリースでは、以下の機能更新・追加を予定しています。
+The next major release is planned to include the following feature updates and additions.
 
-- 入力ファイル作成の簡素化
+- Simplification of input file creation
 
-- anphonでのスーパーセル計算サポート
+- Support for supercell calculations with anphon
 
-- 4フォノン散乱過程の計算
+- Calculation of 4-phonon scattering processes
 
-- IFCの保存フォーマット変更 (XML → HDF5)
+- Change in IFC storage format (XML → HDF5)
 
-まだマニュアル整備は進んでいないですが、作業履歴はhttps://github.com/ttadano/alamode/tree/2.0dev　から確認できます。
+Although the manual is not yet complete, you can check the work history at https://github.com/ttadano/alamode/tree/2.0dev.
 
 ---
 
@@ -3058,12 +3067,12 @@ section {
 }
 </style>
 
-# 入力ファイルの簡素化
+# Simplification of input files
 
 <div class="columns">
 <div>
 
-#### 現状 (ver.1.x)
+#### Current Status (ver.1.x)
 
 <div class="code-block-wrapper">
   <pre><code class="language-bash">&general
@@ -3119,7 +3128,7 @@ section {
 }
 </style>
 
-# 4フォノン散乱過程の計算
+# Calculation of 4-Phonon Scattering Processes
 
 <div class="columns">
 <div>
@@ -3143,13 +3152,13 @@ $$
 
 --- 
 
-# その他
+# Others
 
-- バグ報告、機能のリクエストなどがあればメールかhttps://github.com/ttadano/alamode/discussions　からどうぞ
+- If you have any bug reports or feature requests, please feel free to email or visit https://github.com/ttadano/alamode/discussions
 
-- 今回は物理の話はしませんでしたが、ALAMODEを利用した物性物理・材料研究の例も多くあります。
+- Although we did not discuss physics this time, there are many examples of condensed matter physics and materials research using ALAMODE.
 
-- 手法開発やソフトウェアエンジニアリングで貢献頂ける方も大募集中。
+- We are also actively seeking contributions in method development and software engineering.
 
 <script>
 // Custom JavaScript for copy-to-clipboard functionality

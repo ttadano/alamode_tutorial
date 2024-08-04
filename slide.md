@@ -70,7 +70,9 @@ input[type="checkbox"] {
 ### 講師: 只野 央将 (NIMS)
 ### TA: 増木 亮太（東京大学）
 
-### 謝辞：CCMSスタッフ （特に井戸様、藤堂様）、物性研スパコン計算資源
+### 謝辞：CCMSスタッフの皆様、物性研スパコン計算資源
+
+
 ---
 
 # 本日のスケジュール
@@ -92,6 +94,7 @@ input[type="checkbox"] {
 - MITライセンス
 - 最新版は1.5.0 (2024年2月リリース)
 - 主にC++で書かれている。補助的にPythonを利用。
+- https://alamode.readthedocs.io
 
 
 --- 
@@ -885,33 +888,23 @@ tree -L 2</code></pre>
 
 ```bash
 .
-|-- 1_force_constant_silicon
-|   |-- data
-|   |-- hands-on_1.ipynb
-|   |-- ref
-|   `-- work
-|-- 2_force_constant_graphene
-|   |-- Extra_hands-on_1.ipynb
-|   |-- data
-|   |-- hands-on_2.ipynb
-|   |-- ref
-|   `-- work
-|-- 3_thermal_conductivity_silicon
-|   |-- hands-on_3.ipynb
-|   `-- ref
-|-- 4_thermal_conductivity_graphene
-|   |-- hands-on_4.ipynb
-|   `-- ref
-|-- 5_self_consistent_phonon_STO
-|   |-- data
-|   |-- hands-on_5.ipynb
-|   `-- ref
-|-- 6_thermal_conductivity_STO
-    |-- data
-    |-- hands-on_6.ipynb
-    `-- ref
+├── 1_force_constant_silicon
+│   ├── data
+│   ├── ref
+│   └── work
+├── 2_thermal_conductivity_silicon
+│   └── ref
+├── 3_self_consistent_phonon_STO
+│   ├── data
+│   └── ref
 ```
 </detail>
+
+- `work`は作業ディレクトリ
+- `ref`は参照用の入力・出力ファイル置き場
+- `data`はこちらが提供するデータ置き場
+
+マニュアルページも参考にしつつ進めてください。https://alamode.readthedocs.io/en/latest/
 
 ---
 
@@ -2872,8 +2865,326 @@ done
 
 ---
 
+<style scoped>
+section {
+    font-size: 24px;
+}
+</style>
+
+#  <span class="red-text"> Extra hands-on. </span> 圧縮センシングを用いた非調和IFC計算
+
+#### 時間が余った方向け
+
+#### 目的
+- 立方晶SrTiO<sub>3</sub>の非調和IFCを圧縮センシングで推定する
+
+#### 手順
+
+1. <input type="checkbox"> 圧縮センシングでCross-validationを行い、ペナルティ項$\alpha$をきめる
+1. <input type="checkbox"> 決めた$\alpha$でパラメータを推定し、結果をXMLファイルに出力する。
+
+---
+
+<style scoped>
+section {
+    font-size: 24px;
+}
+</style>
+
+# LASSO
+
+#### Elastic net
+$$
+\boldsymbol{\Phi}_{\mathrm{enet}} = \mathop{\rm argmin}\limits_{\boldsymbol{\Phi}} \frac{1}{2N_{d}}   \|\mathbb{A} \boldsymbol{\Phi} - \boldsymbol{\mathscr{F}}_{\mathrm{DFT}}\|^{2}_{2} + \alpha \beta \| \boldsymbol{\Phi}  \|_{1} + \frac{1}{2} \alpha (1-\beta) \| \boldsymbol{\Phi}  \|_{2}^{2}
+$$
+
+$\beta=1$とするとLASSOになる
+$$
+\boldsymbol{\Phi}_{\mathrm{lasso}} = \mathop{\rm argmin}\limits_{\boldsymbol{\Phi}} \frac{1}{2N_{d}}   \|\mathbb{A} \boldsymbol{\Phi} - \boldsymbol{\mathscr{F}}_{\mathrm{DFT}}\|^{2}_{2} + \alpha \| \boldsymbol{\Phi}  \|_{1}
+$$
+
+最適なペナルティ項$\alpha$の大きさはモデルや学習データに依存するので、毎回決め直す。
+今回はCross-validationによって$\alpha_{\mathrm{opt}}$をきめる。
+
+
+---
+
+
+<style scoped>
+section {
+    font-size: 24px;
+}
+</style>
+
+# Cross-Validation (CV)
+
+- 学習データを$n$個のsubsetに分割し、そのうち$n-1$個をtrainingに使い、残りの1 subsetを使ってvalidation errorを評価する。これをtraining, validationの組み合わせを変えて$n$回繰り返し、validation errorの平均値を求める。
+
+- この作業を色々な$\alpha$で実行し、validation errorの平均値が最小になる$\alpha$を$\alpha_{\mathrm{opt}}$とする。
+
+- $n$分割して行うCVを$n$-fold CVと呼ぶ
+
+
+#### 今回の計算条件
+
+- 学習データは`../data/DFSET_AIMD+random`. 
+- 学習データ数（構造数）は40
+- 4-fold CVを使う
+
+---
+<style scoped>
+section {
+    font-size: 22px;
+}
+</style>
+
+# CVの実行
+
+<div class="columns">
+
+<div>
+
+1. 入力ファイルをコピー
+    <div class="code-block-wrapper">
+      <pre><code class="language-bash">cp ../ref/CV.in .</code></pre>
+      <button class="copy-button">Copy</button>
+    </div>
+
+    <input type="checkbox"> 中身を確認し、右のようになっていることを確認
+
+2. almを実行 (5~10分程度かかる)
+    <div class="code-block-wrapper">
+      <pre><code class="language-bash">alm CV.in > CV.log &
+   tail -f CV.log</code></pre>
+      <button class="copy-button">Copy</button>
+    </div>
+</div>
+
+<div>
+CV.inで重要な箇所
+    <div class="code-block-wrapper">
+      <pre><code class="language-bash">&interaction
+ NORDER = 5
+ NBODY = 2 3 3 2 2
+/
+&cutoff
+*-* None None 12.0 12.0 12.0
+/
+&optimize
+ LMODEL = enet
+ DFSET = ../data/DFSET_AIMD+random
+ FC2XML = STO222.xml
+ CV = 4　# 4-fold CV
+ L1_RATIO = 1.0 # LASSO
+/</code></pre>
+      <button class="copy-button">Copy</button>
+    </div>
+
+</div>
+</div>
+
+3. CV scoreを確認
+    <div class="code-block-wrapper">
+      <pre><code class="language-bash">gnuplot>
+   gnuplot> plot "STO_anharm.cvscore" u 1:2:3 w yerr ti "training"
+   gnuplot> replot "STO_anharm.cvscore" u 1:4:5 w yerr ti "Validation"</code></pre>
+      <button class="copy-button">Copy</button>
+    </div>
+  
+   <input type="checkbox"> $\alpha_{\mathrm{opt}}$ の値を確認
+
+
+---
+<style scoped>
+section {
+    font-size: 22px;
+}
+</style>
+
+# $\alpha=\alpha_{\mathrm{opt}}$でのIFCの推定
+
+<div class="columns">
+
+<div>
+
+1. opt.inを作成
+    <div class="code-block-wrapper">
+      <pre><code class="language-bash">cp CV.in opt.in
+   vim opt.in</code></pre>
+      <button class="copy-button">Copy</button>
+    </div>
+
+2. 右のように編集したらalmを実行
+    <div class="code-block-wrapper">
+      <pre><code class="language-bash">alm opt.in > opt.log</code></pre>
+      <button class="copy-button">Copy</button>
+    </div>
+
+<input type="checkbox">　STO_anharm.xmlが作成されている事を確認
+
+</div>
+
+<div>
+
+opt.inの変更箇所
+    <div class="code-block-wrapper">
+      <pre><code class="language-bash">&optimize
+      　LMODEL = enet
+      　DFSET = ../data/DFSET_AIMD+random
+      　FC2XML = STO222.xml
+      　CV = 0　# No Cross-validation
+      　L1_RATIO = 1.0 # LASSO
+      　L1_ALPHA = xxxxx # ここに推定したalphaを入れる
+/</code></pre>
+      <button class="copy-button">Copy</button>
+</div>
+
+</div>
+
+</div>
+
+
+---
+<style scoped>
+section {
+    font-size: 26px;
+}
+</style>
+
+# 今回触れなかったアドバンスドトピック
+
+- SCP法に基づく有限温度での構造最適化計算 (`RELAX_STR > 0`)
+
+  - https://alamode.readthedocs.io/en/latest/tutorial_pages/bto_scph_relax.html
+  にチュートリアルがあります
+
+- SCPにBubble diagram補正を考慮してフォノンを計算する方法 (`BUBBLE > 0`)
+
+- ALMのPython API https://github.com/ttadano/ALM
+  - PythonでALMを使うことができるAPIがあります。
+
+
+---
+
 # 今後の展望
 
+#### ALAMODE ver.2でのアップデート
+
+次期のメジャーリリースでは、以下の機能更新・追加を予定しています。
+
+- 入力ファイル作成の簡素化
+
+- anphonでのスーパーセル計算サポート
+
+- 4フォノン散乱過程の計算
+
+- IFCの保存フォーマット変更 (XML → HDF5)
+
+まだマニュアル整備は進んでいないですが、作業履歴はhttps://github.com/ttadano/alamode/tree/2.0dev　から確認できます。
+
+
+---
+
+<style scoped>
+section {
+    font-size: 20px;
+}
+</style>
+
+# 入力ファイルの簡素化
+
+<div class="columns">
+<div>
+
+#### 現状 (ver.1.x)
+<div class="code-block-wrapper">
+  <pre><code class="language-bash">&general
+ PREFIX = si222
+ MODE = suggest 
+ NAT = 64
+ NKD = 1; KD = Si
+/
+&cutoff
+ Si-Si None
+/
+&cell
+    1.88972612545783 # Convetion unit from Angstrom to bohr
+    10.8060000000000     0.0000000000000     0.0000000000000
+     0.0000000000000    10.8060000000000     0.0000000000000
+     0.0000000000000     0.0000000000000    10.8060000000000
+/
+&position
+   1     0.50000000000000     0.00000000000000     0.00000000000000
+   1     0.75000000000000     0.25000000000000     0.00000000000000
+   (omitted)
+/</code></pre>
+  <button class="copy-button">Copy</button>
+</div>
+
+</div>
+
+<div>
+
+#### ver. 2.x
+<div class="code-block-wrapper">
+  <pre><code class="language-bash">&general
+ PREFIX = si222
+ MODE = suggest 
+ STRUCTURE_FILE = primitive.POSCAR.vasp
+ SUPERCELL = -2 2 2 2 -2 2 2 2 -2
+/
+&cutoff
+ Si-Si None
+/</code></pre>
+  <button class="copy-button">Copy</button>
+</div>
+</div>
+
+</div>
+
+
+---
+
+<style scoped>
+section {
+    font-size: 18px;
+}
+</style>
+
+# 4フォノン散乱過程の計算
+
+<div class="columns">
+<div>
+
+
+
+$$
+\begin{aligned}
+  \Gamma_{q}^{\mathrm{4ph}} &= \mathrm{Im}\Sigma_{q}^{\mathrm{4ph}}[G,\Phi_{4}](\omega_{q}) \notag \\
+    & = \frac{\pi\hbar^4}{96}\sum_{q_1,q_2,q_3}
+        \frac{|\Phi_4(-q;q_1;q_2;q_3)|^{2}}{\omega_q\omega_{q_1}\omega_{q_2}\omega_{q_3}} \Delta (-\boldsymbol{q}+\boldsymbol{q}_1+\boldsymbol{q}_2+\boldsymbol{q}_3)\notag \\
+        & \times  \bigg\{ (n_1 n_2 + n_2 n_3 + n_3 n_1 + n_1 + n_2 + n_3 + 1) \delta(\omega_q-\omega_{q_1}-\omega_{q_2}-\omega_{q_3})  \notag  \\
+        & + 3 (n_1 n_2 + n_1 n_3 + n_1 - n_2 n_3) [\delta(\omega_q-\omega_{q_1}+\omega_{q_2}+\omega_{q_3}) - \delta(\omega_q+\omega_{q_1}-\omega_{q_2}-\omega_{q_3})]  \bigg\}
+ \end{aligned}
+$$
+</div>
+
+<div>
+
+![w:500](./assets/4phonon.png)
+</div>
+</div>
+
+
+--- 
+
+# その他
+
+- バグ報告、機能のリクエストなどがあればメールかhttps://github.com/ttadano/alamode/discussions　からどうぞ
+
+- 今回は物理の話はしませんでしたが、ALAMODEを利用した物性物理・材料研究の例も多くあります。
+
+- 手法開発やソフトウェアエンジニアリングで貢献頂ける方も大募集中。
 
 
 

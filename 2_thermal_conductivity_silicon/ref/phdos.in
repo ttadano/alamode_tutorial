@@ -3,7 +3,7 @@
  MODE = phonons
  NKD = 1; KD = Si
  FCSXML = super222_cubic.xml
- EMIN = 0; EMAX = 550; DELTA_E = 1.0
+ DELTA_E = 1.0
  # Tetrahedron
  #ISMEAR = -1
  # Gaussian broadening

@@ -1,11 +1,11 @@
  +-----------------------------------------------------------------+
  +                         Program ANPHON                          +
- +                             Ver.  1.4.0                         +
+ +                             Ver.  1.5.0                         +
  +-----------------------------------------------------------------+
 
- Job started at Fri Jun 24 14:15:01 2022
+ Job started at Sun Aug  4 23:36:01 2024
 
- The number of MPI processes: 4
+ The number of MPI processes: 12
  The number of OpenMP threads: 1
 
 
@@ -23,7 +23,7 @@
   NONANALYTIC = 0
 
   TMIN = 0; TMAX = 1000; DT = 10
-  EMIN = 0; EMAX = 600; DELTA_E = 1
+  EMIN = 0; EMAX = 550; DELTA_E = 1
 
   ISMEAR = -1; EPSILON = 10
 
@@ -40,7 +40,7 @@
 
  Analysis:
   ISOTOPE = 0
-  KAPPA_SPEC = 0
+  KAPPA_SPEC = 1
 
 
  -----------------------------------------------------------------
@@ -97,8 +97,8 @@
  ========
 
   NSYM = 0 is given: Trying to find symmetry operations.
-  Number of symmetry operations : 48
 
+  Number of symmetry operations : 48
  k points
  ========
 
@@ -113,35 +113,35 @@
 
   List of irreducible k points (reciprocal coordinate, weight) : 
       1:   0.00000e+00   0.00000e+00   0.00000e+00   0.001000
-      2:   0.00000e+00   0.00000e+00   1.00000e-01   0.008000
-      3:   0.00000e+00   0.00000e+00   2.00000e-01   0.008000
-      4:   0.00000e+00   0.00000e+00   3.00000e-01   0.008000
-      5:   0.00000e+00   0.00000e+00   4.00000e-01   0.008000
+      2:  -9.20669e-36  -9.20669e-36   1.00000e-01   0.008000
+      3:  -1.84134e-35  -1.84134e-35   2.00000e-01   0.008000
+      4:   1.84134e-35   1.84134e-35   3.00000e-01   0.008000
+      5:  -3.68268e-35  -3.68268e-35   4.00000e-01   0.008000
       6:   0.00000e+00   0.00000e+00  -5.00000e-01   0.004000
-      7:   0.00000e+00   1.00000e-01   1.00000e-01   0.006000
-      8:   0.00000e+00   1.00000e-01   2.00000e-01   0.024000
-      9:   0.00000e+00   1.00000e-01   3.00000e-01   0.024000
-     10:   0.00000e+00   1.00000e-01   4.00000e-01   0.024000
+      7:  -9.20669e-36   1.00000e-01   1.00000e-01   0.006000
+      8:  -1.84134e-35   1.00000e-01   2.00000e-01   0.024000
+      9:   1.84134e-35   1.00000e-01   3.00000e-01   0.024000
+     10:   3.48359e-34   1.00000e-01   4.00000e-01   0.024000
      11:   0.00000e+00   1.00000e-01  -5.00000e-01   0.024000
-     12:   0.00000e+00   1.00000e-01  -4.00000e-01   0.024000
-     13:   0.00000e+00   1.00000e-01  -3.00000e-01   0.024000
-     14:   0.00000e+00   1.00000e-01  -2.00000e-01   0.024000
-     15:   0.00000e+00   1.00000e-01  -1.00000e-01   0.012000
-     16:   0.00000e+00   2.00000e-01   2.00000e-01   0.006000
-     17:   0.00000e+00   2.00000e-01   3.00000e-01   0.024000
-     18:   0.00000e+00   2.00000e-01   4.00000e-01   0.024000
+     12:   8.59742e-18   1.00000e-01  -4.00000e-01   0.024000
+     13:   8.59742e-18   1.00000e-01  -3.00000e-01   0.024000
+     14:   8.59742e-18   1.00000e-01  -2.00000e-01   0.024000
+     15:   8.59742e-18   1.00000e-01  -1.00000e-01   0.012000
+     16:  -1.84134e-35   2.00000e-01   2.00000e-01   0.006000
+     17:   1.84134e-35   2.00000e-01   3.00000e-01   0.024000
+     18:  -3.68268e-35   2.00000e-01   4.00000e-01   0.024000
      19:   0.00000e+00   2.00000e-01  -5.00000e-01   0.024000
-     20:   0.00000e+00   2.00000e-01  -4.00000e-01   0.024000
-     21:   0.00000e+00   2.00000e-01  -3.00000e-01   0.024000
-     22:   0.00000e+00   2.00000e-01  -2.00000e-01   0.012000
-     23:   0.00000e+00   3.00000e-01   3.00000e-01   0.006000
-     24:   0.00000e+00   3.00000e-01   4.00000e-01   0.024000
+     20:   8.59742e-18   2.00000e-01  -4.00000e-01   0.024000
+     21:   8.59742e-18   2.00000e-01  -3.00000e-01   0.024000
+     22:   8.59742e-18   2.00000e-01  -2.00000e-01   0.012000
+     23:   1.84134e-35   3.00000e-01   3.00000e-01   0.006000
+     24:  -3.68268e-35   3.00000e-01   4.00000e-01   0.024000
      25:   0.00000e+00   3.00000e-01  -5.00000e-01   0.024000
-     26:   0.00000e+00   3.00000e-01  -4.00000e-01   0.024000
-     27:   0.00000e+00   3.00000e-01  -3.00000e-01   0.012000
-     28:   0.00000e+00   4.00000e-01   4.00000e-01   0.006000
+     26:   3.68268e-35   3.00000e-01  -4.00000e-01   0.024000
+     27:   8.59742e-18   3.00000e-01  -3.00000e-01   0.012000
+     28:  -3.68268e-35   4.00000e-01   4.00000e-01   0.006000
      29:   0.00000e+00   4.00000e-01  -5.00000e-01   0.024000
-     30:   0.00000e+00   4.00000e-01  -4.00000e-01   0.012000
+     30:   3.68268e-35   4.00000e-01  -4.00000e-01   0.012000
      31:   0.00000e+00  -5.00000e-01  -5.00000e-01   0.003000
      32:   1.00000e-01   2.00000e-01   3.00000e-01   0.024000
      33:   1.00000e-01   2.00000e-01   4.00000e-01   0.048000
@@ -190,10 +190,18 @@
  Start calculating anharmonic phonon self-energies ... 
  Total Number of phonon modes to be calculated : 282
  All modes are distributed to MPI threads as the following :
- RANK:     1 MODES:    71
- RANK:     2 MODES:    71
- RANK:     3 MODES:    70
- RANK:     4 MODES:    70
+ RANK:     1 MODES:    24
+ RANK:     2 MODES:    24
+ RANK:     3 MODES:    24
+ RANK:     4 MODES:    24
+ RANK:     5 MODES:    24
+ RANK:     6 MODES:    24
+ RANK:     7 MODES:    23
+ RANK:     8 MODES:    23
+ RANK:     9 MODES:    23
+ RANK:    10 MODES:    23
+ RANK:    11 MODES:    23
+ RANK:    12 MODES:    23
 
  MODE     1 done.
  MODE     2 done.
@@ -219,57 +227,13 @@
  MODE    22 done.
  MODE    23 done.
  MODE    24 done.
- MODE    25 done.
- MODE    26 done.
- MODE    27 done.
- MODE    28 done.
- MODE    29 done.
- MODE    30 done.
- MODE    31 done.
- MODE    32 done.
- MODE    33 done.
- MODE    34 done.
- MODE    35 done.
- MODE    36 done.
- MODE    37 done.
- MODE    38 done.
- MODE    39 done.
- MODE    40 done.
- MODE    41 done.
- MODE    42 done.
- MODE    43 done.
- MODE    44 done.
- MODE    45 done.
- MODE    46 done.
- MODE    47 done.
- MODE    48 done.
- MODE    49 done.
- MODE    50 done.
- MODE    51 done.
- MODE    52 done.
- MODE    53 done.
- MODE    54 done.
- MODE    55 done.
- MODE    56 done.
- MODE    57 done.
- MODE    58 done.
- MODE    59 done.
- MODE    60 done.
- MODE    61 done.
- MODE    62 done.
- MODE    63 done.
- MODE    64 done.
- MODE    65 done.
- MODE    66 done.
- MODE    67 done.
- MODE    68 done.
- MODE    69 done.
- MODE    70 done.
- MODE    71 done.
+
+ KAPPA_SPEC = 1 : Calculating thermal conductivity spectra ...  done!
 
  -----------------------------------------------------------------
 
  Lattice thermal conductivity is stored in the file Si_q10.kl
+ Thermal conductivity spectra is stored in the file Si_q10.kl_spec
 
- Job finished at Fri Jun 24 14:15:03 2022
+ Job finished at Sun Aug  4 23:36:03 2024
 

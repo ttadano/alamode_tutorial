@@ -3,7 +3,7 @@
  +                             Ver.  1.5.0                         +
  +-----------------------------------------------------------------+
 
- Job started at Sun Aug  4 23:33:05 2024
+ Job started at Sun Aug  4 23:33:31 2024
 
  The number of MPI processes: 1
  The number of OpenMP threads: 12
@@ -12,7 +12,7 @@
  Input variables:
  -----------------------------------------------------------------
  General:
-  PREFIX = Si
+  PREFIX = Si2
   MODE = PHONONS
   FCSXML = super222_cubic.xml
 
@@ -25,7 +25,7 @@
   TMIN = 0; TMAX = 1000; DT = 10
   EMIN = 0; EMAX = 1000; DELTA_E = 1
 
-  ISMEAR = -1; EPSILON = 10
+  ISMEAR = 1; EPSILON = 7
 
   CLASSICAL = 0
   BCONNECT = 0
@@ -391,7 +391,7 @@
  -----------------------------------------------------------------
 
 
- ISMEAR = -1: Tetrahedron method will be used.
+ ISMEAR = 1: Gaussian broadening with epsilon = 7.00 (cm^-1)
 
  Now, move on to phonon calculations.
 
@@ -2710,8 +2710,8 @@
  -----------------------------------------------------------------
 
  The following files are created: 
-  Si.dos         : Phonon DOS
-  Si.thermo      : Thermodynamic quantities
+  Si2.dos         : Phonon DOS
+  Si2.thermo      : Thermodynamic quantities
 
- Job finished at Sun Aug  4 23:33:07 2024
+ Job finished at Sun Aug  4 23:33:33 2024
 

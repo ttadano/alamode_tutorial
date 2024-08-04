@@ -1,11 +1,11 @@
  +-----------------------------------------------------------------+
  +                         Program ALM                             +
- +                             Ver.  1.4.0                         +
+ +                             Ver.  1.5.0                         +
  +-----------------------------------------------------------------+
 
- Number of OpenMP threads = 8
+ Number of OpenMP threads = 12
 
- Job started at Thu Jun 23 18:19:27 2022
+ Job started at Sun Aug  4 23:29:49 2024
 
 
  Input variables:
@@ -21,9 +21,10 @@
   MAGMOM = 
   FCS_ALAMODE = 1;  NMAXSAVE = 5
   FC3_SHENGBTE = 0
+  FC4_SHENGBTE = 0
   FC2_QEFC = 0
   HESSIAN = 0
-  FC_ZERO_THR = 0
+  FC_ZERO_THR = 1e-12
 
  Interaction:
   NORDER = 2
@@ -43,7 +44,7 @@
   SPARSESOLVER = SimplicialLDLT
   CONV_TOL = 1e-08
   MAXITER = 10000
-  MIRROR_IMAGE_CONV = 0
+  PERIODIC_IMAGE_CONV = 1
 
  -------------------------------------------------------------------
 
@@ -132,7 +133,7 @@
     64   1.250000e-01   8.750000e-01   8.750000e-01    1
 
 
-  Time Elapsed: 0.010325 sec.
+  Time Elapsed: 0.004204 sec.
 
  -------------------------------------------------------------------
 
@@ -181,12 +182,17 @@
     31 |    15   47
     32 |    28   60
 
-  Time Elapsed: 0.058508 sec.
+  Time Elapsed: 0.037301 sec.
 
  -------------------------------------------------------------------
 
  INTERACTION
  ===========
+
+check permutation symmetry of the clusters.
+(if no message is printed out, the permutation symmetry is satisfied.)
+  CUBIC ...
+done.
 
   +++ Cutoff Radii Matrix (NKD x NKD matrix) +++
    HARMONIC
@@ -235,7 +241,7 @@
                8   14.4394 (  3) -  46( Si)  51( Si)  53( Si)
                9   17.6846 (  1) -  59( Si)
 
-  Time Elapsed: 0.063054 sec.
+  Time Elapsed: 0.042467 sec.
 
  -------------------------------------------------------------------
 
@@ -247,7 +253,7 @@
   Number of  HARMONIC FCs : 26
   Number of   ANHARM3 FCs : 123
 
-  Time Elapsed: 0.08175 sec.
+  Time Elapsed: 0.059159 sec.
 
  -------------------------------------------------------------------
 
@@ -267,21 +273,21 @@
 
   Number of constraints [T-inv, R-inv (self), R-inv (cross)]:
    HARMONIC      1    0    0
-    ANHARM3     15    0    0
+    ANHARM3     16    0    0
 
   Constraints of T-inv and R-inv (self) are merged.
   If there are redundant constraints, they are removed in this process.
 
   Number of inequivalent constraints (self, cross) : 
    HARMONIC      1    0
-    ANHARM3     15    0
+    ANHARM3     16    0
 
   ICONST >= 10 : Constraints will be considered algebraically.
 
   Number of free HARMONIC FCs : 0
-  Number of free  ANHARM3 FCs : 108
+  Number of free  ANHARM3 FCs : 107
 
-  Time Elapsed: 0.097563 sec.
+  Time Elapsed: 0.071378 sec.
 
  -------------------------------------------------------------------
 
@@ -296,12 +302,12 @@
   16 entries will be used for training.
 
   Total Number of Parameters : 149
-  Total Number of Free Parameters : 108
+  Total Number of Free Parameters : 107
 
   Entering fitting routine: SVD with constraints considered algebraically.
   SVD has started ... finished !
 
-  RANK of the matrix = 103
+  RANK of the matrix = 102
  **************************************************************************
   WARNING : Rank deficient                                                 
 
@@ -311,7 +317,7 @@
   training datasets.                                                       
  **************************************************************************
 
-  Time Elapsed: 0.31372 sec.
+  Time Elapsed: 0.226143 sec.
 
  -------------------------------------------------------------------
 
@@ -320,5 +326,5 @@
  Force constants in a human-readable format : si222_cubic_larger.fcs
  Input data for the phonon code ANPHON      : si222_cubic_larger.xml
 
- Job finished at Thu Jun 23 18:19:27 2022
+ Job finished at Sun Aug  4 23:29:50 2024
 

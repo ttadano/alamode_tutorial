@@ -1,11 +1,11 @@
  +-----------------------------------------------------------------+
  +                         Program ALM                             +
- +                             Ver.  1.4.0                         +
+ +                             Ver.  1.5.0                         +
  +-----------------------------------------------------------------+
 
- Number of OpenMP threads = 8
+ Number of OpenMP threads = 12
 
- Job started at Thu Jun 23 18:00:06 2022
+ Job started at Sun Aug  4 23:29:58 2024
 
 
  Input variables:
@@ -21,9 +21,10 @@
   MAGMOM = 
   FCS_ALAMODE = 1;  NMAXSAVE = 5
   FC3_SHENGBTE = 0
+  FC4_SHENGBTE = 0
   FC2_QEFC = 0
   HESSIAN = 0
-  FC_ZERO_THR = 0
+  FC_ZERO_THR = 1e-12
 
  Interaction:
   NORDER = 1
@@ -43,7 +44,7 @@
   SPARSESOLVER = SimplicialLDLT
   CONV_TOL = 1e-08
   MAXITER = 10000
-  MIRROR_IMAGE_CONV = 0
+  PERIODIC_IMAGE_CONV = 1
 
  -------------------------------------------------------------------
 
@@ -132,7 +133,7 @@
     64   1.250000e-01   8.750000e-01   8.750000e-01    1
 
 
-  Time Elapsed: 0.005289 sec.
+  Time Elapsed: 0.002017 sec.
 
  -------------------------------------------------------------------
 
@@ -181,12 +182,16 @@
     31 |    15   47
     32 |    28   60
 
-  Time Elapsed: 0.051035 sec.
+  Time Elapsed: 0.036731 sec.
 
  -------------------------------------------------------------------
 
  INTERACTION
  ===========
+
+check permutation symmetry of the clusters.
+(if no message is printed out, the permutation symmetry is satisfied.)
+done.
 
   +++ Cutoff Radii Matrix (NKD x NKD matrix) +++
    HARMONIC
@@ -232,7 +237,7 @@
                8   14.4394 (  3) -  46( Si)  51( Si)  53( Si)
                9   17.6846 (  1) -  59( Si)
 
-  Time Elapsed: 0.055038 sec.
+  Time Elapsed: 0.040008 sec.
 
  -------------------------------------------------------------------
 
@@ -243,7 +248,7 @@
 
   Number of  HARMONIC FCs : 26
 
-  Time Elapsed: 0.057007 sec.
+  Time Elapsed: 0.041689 sec.
 
  -------------------------------------------------------------------
 
@@ -270,7 +275,7 @@
 
   Number of free HARMONIC FCs : 25
 
-  Time Elapsed: 0.057471 sec.
+  Time Elapsed: 0.04203 sec.
 
  -------------------------------------------------------------------
 
@@ -295,7 +300,7 @@
   Residual sum of squares for the solution: 3.61073e-05
   Fitting error (%) : 0.569031
 
-  Time Elapsed: 0.065986 sec.
+  Time Elapsed: 0.04377 sec.
 
  -------------------------------------------------------------------
 
@@ -304,5 +309,5 @@
  Force constants in a human-readable format : si222.fcs
  Input data for the phonon code ANPHON      : si222.xml
 
- Job finished at Thu Jun 23 18:00:06 2022
+ Job finished at Sun Aug  4 23:29:58 2024
 

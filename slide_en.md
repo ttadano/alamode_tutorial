@@ -178,9 +178,9 @@ $$
 $$
 <br>
 
-- 2nd order (harmonic) term → Phonon dispersion (0 K)
-- 3rd order term → Phonon-phonon scattering, thermal expansion, ...
-- 4th order term → Finite temperature phonons, higher-order phonon scattering
+- 2nd order (harmonic) term &rarr; Phonon dispersion (0 K)
+- 3rd order term &rarr; Phonon-phonon scattering, thermal expansion, ...
+- 4th order term &rarr; Finite temperature phonons, higher-order phonon scattering
 
 ---
 
@@ -663,7 +663,7 @@ Example of cubic SrTiO<sub>3</sub>:
 
 </div>
 
-When imaginary phonons appear, a well-defined Hamiltonian $\hat{H}_{0}=\sum_{\boldsymbol{q},j}\hbar\omega_{\boldsymbol{q}j}\left(b_{\boldsymbol{q}j}^{\dagger}b_{\boldsymbol{q}j}+\frac{1}{2} \right)$ cannot be defined. → Thermal conductivity cannot be calculated either.
+When imaginary phonons appear, a well-defined Hamiltonian $\hat{H}_{0}=\sum_{\boldsymbol{q},j}\hbar\omega_{\boldsymbol{q}j}\left(b_{\boldsymbol{q}j}^{\dagger}b_{\boldsymbol{q}j}+\frac{1}{2} \right)$ cannot be defined. &rarr; Thermal conductivity cannot be calculated either.
 
 ---
 
@@ -696,7 +696,7 @@ $$
 
 - $\Phi_{ij}$, $\Phi_{ijk\ell}$ are the second and fourth derivatives of the BO energy surface, respectively.
 - Diagonalize the Dynamical matrix $\tilde{D}(\boldsymbol{q})$ constructed using $\tilde{\Phi}_{ij}$ 
-→ anharmonic frequency $\Omega_{q}$.
+&rarr; anharmonic frequency $\Omega_{q}$.
 - $\braket{u_{k}u_{l}}_{0}$ is calculated using the effective single-body Hamiltonian $\hat{\mathcal{H}}_{0}=\sum_{\boldsymbol{q},j}\hbar\Omega_{\boldsymbol{q}j}\left(a_{\boldsymbol{q}j}^{\dagger}a_{\boldsymbol{q}j}+\frac{1}{2} \right)$ for ensemble average.
 
 </div>
@@ -710,7 +710,7 @@ $$
 
 <br>
 
-It is necessary to self-consistently determine $\tilde{\Phi}_{ij}$. → **Self-consistent phonon** (SCP) method
+It is necessary to self-consistently determine $\tilde{\Phi}_{ij}$. &rarr; **Self-consistent phonon** (SCP) method
 
 ---
 
@@ -1058,7 +1058,7 @@ $$
 #### Specific Transformation Methods
 
 - Use VESTA
-- Use **pymatgen** or ase ← this time we will use pymatgen
+- Use **pymatgen** or ase &larr; this time we will use pymatgen
 - Create a custom script
 - Convert within ALAMODE (supported from version 2 onwards)
 
@@ -1067,12 +1067,12 @@ $$
 <div>
 
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">cp ../ref/makedisp_vasp.py
-python3 makedisp_vasp.py</code></pre>
+  <pre><code class="language-bash">cp ../ref/makesupercell.py
+python3 makesupercell.py</code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> Check the contents of makedisp_vasp.py and confirm that the matrix $P$ is defined as above.
+<input type="checkbox"> Check the contents of makesupercell.py and confirm that the matrix $P$ is defined as above.
 
 <input type="checkbox"> Confirm that SPOSCAR has been created.
 
@@ -1306,7 +1306,7 @@ section {
 
 # 1.5. Generate supercell structure with atomic displacements
 
-From the structure of SPOSCAR, create a structure with atomic displacements of 0.01 Å.
+From the structure of SPOSCAR, create a structure with atomic displacements of 0.01 Å.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python3 -m displace --VASP SPOSCAR --mag 0.01 --prefix harm -pf si222.pattern_HARMONIC
 </code></pre>
@@ -1525,7 +1525,7 @@ grep "Fitting error" ALM1.log</code></pre>
 <input type="checkbox"> Confirm that the fitting error is the relative error of the forces. Ensure it is sufficiently small.
 <input type="checkbox"> Confirm that si222.xml has been created.
 
-- When the displacement magnitude is around 0.01 Å, the fitting error is often below a few percent. If it is larger than that, it may indicate that the initial structure optimization is insufficient or that the numerical precision of the DFT calculation is inadequate.
+- When the displacement magnitude is around 0.01 Å, the fitting error is often below a few percent. If it is larger than that, it may indicate that the initial structure optimization is insufficient or that the numerical precision of the DFT calculation is inadequate.
 
 #### Fitting of 3rd Anharmonic Term
 
@@ -1698,7 +1698,7 @@ After editing with reference to the right, run anphon
 
 Plot
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">python -m plotdos Si.dos --unit meV
+  <pre><code class="language-bash">python3 -m plotdos Si.dos --unit meV
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -1954,12 +1954,12 @@ section {
 # Phenomenological Incorporation of Grain Boundary Scattering
 
 In real materials, the phonon scattering effect at grain boundaries cannot be ignored. This effect is considered phenomenologically.
-Scattering intensity 　$\tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1} = \frac{2|\boldsymbol{v}_{\boldsymbol{q}j}|}{L}$: where $L$ is the grain size
+Scattering intensity $\tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1} = \frac{2|\boldsymbol{v}_{\boldsymbol{q}j}|}{L}$: where $L$ is the grain size
 
 #### 3-Phonon Scattering + Grain Boundary Scattering $\tau_{\boldsymbol{q}j}^{-1} = \tau_{\boldsymbol{q}j,\mathrm{anh}}^{-1} + \tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1}$
 
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">python -m analyze_phonons --calc kappa_boundary --size 1.0e+5 Si_q10.result > Si_boundary.kl
+  <pre><code class="language-bash">python3 -m analyze_phonons --calc kappa_boundary --size 1.0e+5 Si_q10.result > Si_boundary.kl
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -1967,7 +1967,7 @@ Scattering intensity 　$\tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1} = \frac{2|\bo
 #### 3-Phonon Scattering + Isotope Scattering + Grain Boundary Scattering $\tau_{\boldsymbol{q}j}^{-1} = \tau_{\boldsymbol{q}j,\mathrm{anh}}^{-1} + \tau_{\boldsymbol{q}j,\mathrm{ph-iso}}^{-1}+ \tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1}$
 
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">python -m analyze_phonons --calc kappa_boundary --isotope Si_q10.self_isotope --size 1.0e+5 Si_q10.result > Si_iso_boundary.kl
+  <pre><code class="language-bash">python3 -m analyze_phonons --calc kappa_boundary --isotope Si_q10.self_isotope --size 1.0e+5 Si_q10.result > Si_iso_boundary.kl
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -2081,7 +2081,7 @@ Plot Si_q10.kl_spec (scroll down as the command continues)
 
 Add the `--length` option to analyze_phonons. Specify the temperature with `--temp`
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">python -m analyze_phonons --calc cumulative --temp 300 --length 10000:1 Si.result > Si.kl_cumulative
+  <pre><code class="language-bash">python3 -m analyze_phonons --calc cumulative --temp 300 --length 10000:1 Si.result > Si.kl_cumulative
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -2126,7 +2126,7 @@ img[alt~="right-bottom"] {
 # Phonon Lifetime and Mean Free Path
 
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">python -m analyze_phonons --calc tau --temp 300 Si_q10.result > tau_300K.dat
+  <pre><code class="language-bash">python3 -m analyze_phonons --calc tau --temp 300 Si_q10.result > tau_300K.dat
 head tau_300K.dat
 </code></pre>
   <button class="copy-button">Copy</button>
@@ -2285,7 +2285,7 @@ img[alt~="right-center"] {
 
 # LO-TO Splitting
 
-In polar materials like SrTiO$_3$, long-range interactions cause longitudinal optical phonons and transverse optical phonons to split near the Γ point of the Brillouin zone.
+In polar materials like SrTiO$_3$, long-range interactions cause longitudinal optical phonons and transverse optical phonons to split near the $\Gamma$ point of the Brillouin zone.
 
 <div class="columns">
 
@@ -2569,11 +2569,11 @@ When the Brillouin zone path is entered in the &kpoint field of scph.in, the `PR
 Let's plot it.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">gnuplot
-gnuplot> set terminal qt font “Helvetica,20”
-gnuplot> set ylabel “Frequency (cm^{-1})”
+gnuplot> set terminal qt font "Helvetica,20"
+gnuplot> set ylabel "Frequency (cm^{-1})"
 gnuplot> unset key
 gnuplot> plot for [col=3:17] "STO_scph2-2.scph_bands" usi 2:col w l lt 1
-gnuplot> replot for [col=2:16] “STO222_NA.bands” usi 1:col w l lt 2
+gnuplot> replot for [col=2:16] "STO222_NA.bands" usi 1:col w l lt 2
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -2601,9 +2601,9 @@ and rerun anphon. This will create the `PREFIX.scph_dos` and `PREFIX.scph_thermo
 Plotting the DOS.
 <div class="code-block-wrapper">
   <pre><code class="language-bash">gnuplot
-gnuplot> plot “STO_scph2-2.scph_dos” usi 1:4 w l ti "100 K"
-gnuplot> replot “STO_scph2-2.scph_dos” usi 1:8 w l ti "300 K"
-gnuplot> replot “STO_scph2-2.scph_dos” usi 1:22 w l ti "1000 K"
+gnuplot> plot "STO_scph2-2.scph_dos" usi 1:4 w l ti "100 K"
+gnuplot> replot "STO_scph2-2.scph_dos" usi 1:8 w l ti "300 K"
+gnuplot> replot "STO_scph2-2.scph_dos" usi 1:22 w l ti "1000 K"
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -3009,12 +3009,12 @@ section {
 Changes in opt.in
     <div class="code-block-wrapper">
       <pre><code class="language-bash">&optimize
-      　LMODEL = enet
-      　DFSET = ../data/DFSET_AIMD+random
-      　FC2XML = STO222.xml
-      　CV = 0　# No Cross-validation
-      　L1_RATIO = 1.0 # LASSO
-      　L1_ALPHA = xxxxx # Enter the estimated alpha here
+      LMODEL = enet
+      DFSET = ../data/DFSET_AIMD+random
+      FC2XML = STO222.xml
+      CV = 0　# No Cross-validation
+      L1_RATIO = 1.0 # LASSO
+      L1_ALPHA = xxxxx # Enter the estimated alpha here
 /</code></pre>
       <button class="copy-button">Copy</button>
 </div>
@@ -3055,7 +3055,7 @@ The next major release is planned to include the following feature updates and a
 
 - Calculation of 4-phonon scattering processes
 
-- Change in IFC storage format (XML → HDF5)
+- Change in IFC storage format (XML &rarr; HDF5)
 
 Although the manual is not yet complete, you can check the work history at https://github.com/ttadano/alamode/tree/2.0dev.
 

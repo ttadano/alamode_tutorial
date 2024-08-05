@@ -1065,12 +1065,12 @@ $$
 <div>
 
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">cp ../ref/makedisp_vasp.py
-python3 makedisp_vasp.py</code></pre>
+  <pre><code class="language-bash">cp ../ref/makesupercell.py
+python3 makesupercell.py</code></pre>
   <button class="copy-button">Copy</button>
 </div>
 
-<input type="checkbox"> makedisp_vasp.pyの中を確認し、行列$P$が上の通り定義されているのを確認。
+<input type="checkbox"> makesupercell.pyの中を確認し、行列$P$が上の通り定義されているのを確認。
 
 <input type="checkbox"> SPOSCARが出来たのを確認。
 
@@ -1306,7 +1306,7 @@ section {
 
 # 1.5. 原子変位を与えたスーパーセル構造を生成
 
-SPOSCARの構造から、原子を0.01 Å だけ微小変位させた構造を作る。
+SPOSCARの構造から、原子を0.01 Å だけ微小変位させた構造を作る。
 <div class="code-block-wrapper">
   <pre><code class="language-bash">python3 -m displace --VASP SPOSCAR --mag 0.01 --prefix harm -pf si222.pattern_HARMONIC
 </code></pre>
@@ -1525,7 +1525,7 @@ grep "Fitting error" ALM1.log</code></pre>
 <input type="checkbox"> フィッティングエラーは力の相対誤差。十分小さい事を確認
 <input type="checkbox"> si222.xmlが出来ている事を確認
 
-- 変位の大きさが0.01 Å程度の場合、フィッティングエラーは数％以下になることが多いです。それ以上に大きな場合は、初期の構造最適化が甘いかDFT計算の数値精度が足りていない可能性があります。
+- 変位の大きさが0.01 Å程度の場合、フィッティングエラーは数％以下になることが多いです。それ以上に大きな場合は、初期の構造最適化が甘いかDFT計算の数値精度が足りていない可能性があります。
 
 #### 3次非調和項のフィット
 
@@ -1698,7 +1698,7 @@ vim phdos.in
 
 プロット
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">python -m plotdos Si.dos --unit meV
+  <pre><code class="language-bash">python3 -m plotdos Si.dos --unit meV
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -1958,7 +1958,7 @@ section {
 #### 3-フォノン散乱 + 粒界散乱 $\tau_{\boldsymbol{q}j}^{-1} = \tau_{\boldsymbol{q}j,\mathrm{anh}}^{-1} + \tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1}$
 
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">python -m analyze_phonons --calc kappa_boundary --size 1.0e+5 Si_q10.result > Si_boundary.kl
+  <pre><code class="language-bash">python3 -m analyze_phonons --calc kappa_boundary --size 1.0e+5 Si_q10.result > Si_boundary.kl
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -1966,7 +1966,7 @@ section {
 #### 3-フォノン散乱 + 同位体散乱 + 粒界散乱 $\tau_{\boldsymbol{q}j}^{-1} = \tau_{\boldsymbol{q}j,\mathrm{anh}}^{-1} + \tau_{\boldsymbol{q}j,\mathrm{ph-iso}}^{-1}+ \tau_{\boldsymbol{q}j,\mathrm{ph-b}}^{-1}$
 
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">python -m analyze_phonons --calc kappa_boundary --isotope Si_q10.self_isotope --size 1.0e+5 Si_q10.result > Si_iso_boundary.kl
+  <pre><code class="language-bash">python3 -m analyze_phonons --calc kappa_boundary --isotope Si_q10.self_isotope --size 1.0e+5 Si_q10.result > Si_iso_boundary.kl
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -2080,7 +2080,7 @@ Si_q10.kl_specをプロット (コマンドが続くのでスクロールして�
 
 analyze_phononsに`--length`オプションを追加。温度は`--temp`で指定
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">python -m analyze_phonons --calc cumulative --temp 300 --length 10000:1 Si.result > Si.kl_cumulative
+  <pre><code class="language-bash">python3 -m analyze_phonons --calc cumulative --temp 300 --length 10000:1 Si.result > Si.kl_cumulative
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -2120,7 +2120,7 @@ img[alt~="right-bottom"] {
 # フォノンの寿命、平均自由行程
 
 <div class="code-block-wrapper">
-  <pre><code class="language-bash">python -m analyze_phonons --calc tau --temp 300 Si_q10.result > tau_300K.dat
+  <pre><code class="language-bash">python3 -m analyze_phonons --calc tau --temp 300 Si_q10.result > tau_300K.dat
 head tau_300K.dat
 </code></pre>
   <button class="copy-button">Copy</button>
@@ -2277,7 +2277,7 @@ img[alt~="right-center"] {
 
 # LO-TO splitting
 
-SrTiO$_3$のような極性物質では長距離相互作用によって、Brillouin zoneのΓ点付近で縦波光学フォノンと横波光学フォノンがsplitする。
+SrTiO$_3$のような極性物質では長距離相互作用によって、Brillouin zoneの$\Gamma$点付近で縦波光学フォノンと横波光学フォノンがsplitする。
 
 <div class="columns">
 
@@ -2562,11 +2562,11 @@ scph.inの&kpointフィールドにBrilloun zoneパスを入力した場合、`P
 プロットしてみる
 <div class="code-block-wrapper">
   <pre><code class="language-bash">gnuplot
-gnuplot> set terminal qt font “Helvetica,20”
-gnuplot> set ylabel “Frequency (cm^{-1})”
+gnuplot> set terminal qt font "Helvetica,20"
+gnuplot> set ylabel "Frequency (cm^{-1})"
 gnuplot> unset key
 gnuplot> plot for [col=3:17] "STO_scph2-2.scph_bands" usi 2:col w l lt 1
-gnuplot> replot for [col=2:16] “STO222_NA.bands” usi 1:col w l lt 2
+gnuplot> replot for [col=2:16] "STO222_NA.bands" usi 1:col w l lt 2
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -2594,9 +2594,9 @@ scph.inの&kpointフィールドを
 DOSをプロット
 <div class="code-block-wrapper">
   <pre><code class="language-bash">gnuplot
-gnuplot> plot “STO_scph2-2.scph_dos” usi 1:4 w l ti "100 K"
-gnuplot> replot “STO_scph2-2.scph_dos” usi 1:8 w l ti "300 K"
-gnuplot> replot “STO_scph2-2.scph_dos” usi 1:22 w l ti "1000 K"
+gnuplot> plot "STO_scph2-2.scph_dos" usi 1:4 w l ti "100 K"
+gnuplot> replot "STO_scph2-2.scph_dos" usi 1:8 w l ti "300 K"
+gnuplot> replot "STO_scph2-2.scph_dos" usi 1:22 w l ti "1000 K"
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -2999,12 +2999,12 @@ section {
 opt.inの変更箇所
     <div class="code-block-wrapper">
       <pre><code class="language-bash">&optimize
-      　LMODEL = enet
-      　DFSET = ../data/DFSET_AIMD+random
-      　FC2XML = STO222.xml
-      　CV = 0　# No Cross-validation
-      　L1_RATIO = 1.0 # LASSO
-      　L1_ALPHA = xxxxx # ここに推定したalphaを入れる
+       LMODEL = enet
+       DFSET = ../data/DFSET_AIMD+random
+       FC2XML = STO222.xml
+       CV = 0　# No Cross-validation
+       L1_RATIO = 1.0 # LASSO
+       L1_ALPHA = xxxxx # ここに推定したalphaを入れる
 /</code></pre>
       <button class="copy-button">Copy</button>
 </div>

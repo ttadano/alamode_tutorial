@@ -1187,7 +1187,7 @@ section {
 <div class="code-block-wrapper">
   <pre><code class="language-bash">echo "&positions" >> ALM0.in
 tail -n 64 SPOSCAR | awk '{print 1, $0}' >> ALM0.in
-echo "/" >> ALM.in
+echo "/" >> ALM0.in
 </code></pre>
   <button class="copy-button">Copy</button>
 </div>
@@ -1786,7 +1786,7 @@ section {
    以下をphdos.inに追記してanphonを再実行
     <div class="code-block-wrapper">
     <pre><code class="language-bash">&analysis
-     MSD = 1; DOS = 0
+     PRINTMSD = 1; DOS = 0
   /    </code></pre>
     <button class="copy-button">Copy</button>
     </div>
@@ -2636,16 +2636,14 @@ img[alt~="right-center"] {
 </div>
 
 ```bash
-# Temperature [K], Cv [in kB unit], F_{vib} (QHA term) [Ry], F_{vib} (SCPH correction) [Ry]
-        0.000000      0.000000e+00      2.166400e-02     -3.384717e-04
-       50.000000      2.060112e+00      2.163279e-02     -3.627344e-04
-      100.000000      5.468752e+00      2.109916e-02     -4.712068e-04
-      150.000000      8.024919e+00      1.978083e-02     -6.337171e-04
-      200.000000      9.843806e+00      1.767606e-02     -8.305727e-04
-      250.000000      1.110867e+01      1.484677e-02     -1.053896e-03
-      300.000000      1.199315e+01      1.136495e-02     -1.299248e-03
-      350.000000      1.262303e+01      7.298030e-03     -1.563621e-03
-      400.000000      1.308168e+01      2.705152e-03     -1.844789e-03
+# Temperature [K], Cv [in kB unit], F_{vib} (QHA term) [Ry], F_{vib} (SCPH correction) [Ry], F_{total} [Ry]
+        0.000000      0.000000e+00      2.167144e-02     -3.517342e-04      2.131970e-02
+       50.000000      1.986175e+00      2.159430e-02     -3.584697e-04      2.123583e-02
+      100.000000      5.495786e+00      2.108377e-02     -4.631215e-04      2.062065e-02
+      150.000000      8.074389e+00      1.978476e-02     -6.215724e-04      1.916319e-02
+      200.000000      9.884093e+00      1.769259e-02     -8.136751e-04      1.687891e-02
+      250.000000      1.113703e+01      1.487106e-02     -1.031527e-03      1.383953e-02
+      300.000000      1.201263e+01      1.139369e-02     -1.270777e-03      1.012291e-02
 ```
 
 $$

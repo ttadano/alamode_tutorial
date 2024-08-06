@@ -19,7 +19,7 @@
 10 10 10
 /
 
-&analysis
- KAPPA_SPEC = 1
- ISOTOPE = 2
-/
+#&analysis
+# KAPPA_SPEC = 1
+# ISOTOPE = 2
+#/
